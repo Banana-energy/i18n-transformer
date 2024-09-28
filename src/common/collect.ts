@@ -7,12 +7,6 @@ import { md5, } from './utils';
 
 const rootPath = process.cwd()
 
-export interface FileSetting {
-  filename: string;
-  path: string;
-  langList: string[]
-}
-
 export interface OutputSetting {
   filename: string;
   path: string;
@@ -21,14 +15,14 @@ export interface OutputSetting {
 
 export interface DependencySetting {
   name: string
-  value: string
+  path: string
   objectPattern: boolean
 }
 
 export interface GlobalSetting {
   output: OutputSetting;
   localePattern: RegExp;
-  keyRule?: ((value: string, node: Node, map: WordMap) => string) | null;
+  keyRule?: ((value: string, node: Node, map: WordMap) => string);
   include?: string[];
   exclude?: string[];
   i18nCallee: string;
@@ -57,7 +51,7 @@ const defaultKeyRule = (value: string, node: Node, exist: WordMap,) => {
 export let globalSetting: GlobalSetting = {} as GlobalSetting;
 
 function initSetting(setting: Options,) {
-  const defaultFile: FileSetting = {
+  const defaultFile: OutputSetting = {
     filename: 'zh.json',
     path: path.resolve(rootPath, './lang',),
     langList: [],

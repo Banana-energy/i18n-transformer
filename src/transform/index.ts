@@ -139,7 +139,7 @@ export default function({
       if (!dependency || loadedDependency) {
         return
       }
-      if (dependency.value !== path.node.source.value) {
+      if (dependency.path !== path.node.source.value) {
         return
       }
       const matched = path.node.specifiers.some((item,) => {
@@ -167,7 +167,7 @@ export default function({
       const initNodeCallee = initNode.callee
       if (initNodeCallee.type === 'Identifier' && initNodeCallee.name === 'require') {
         const args = initNode.arguments
-        if (args.length && dependency.value === (args[0] as WithValue).value) {
+        if (args.length && dependency.path === (args[0] as WithValue).value) {
           valueMatched = true
         }
       }
@@ -260,7 +260,7 @@ export default function({
       name, objectPattern,
     } = dependency
     const i18nImport = `import ${objectPattern ? '{' + name + '}' : name} from '${
-      dependency.value
+      dependency.path
     }'`
     const i18nImportAst = parse(i18nImport, {
       sourceType: 'module',

@@ -9,7 +9,7 @@ export default (options: Options = {},): Plugin => {
   const { setting, } = collectInit(options,)
   let isBuild = false
   return {
-    name: 'auto-i18n',
+    name: 'i18n-transformer',
     configResolved(resolvedConfig,) {
       // 保存是否是构建过程
       isBuild = resolvedConfig.command === 'build'
