@@ -75,6 +75,7 @@ function findCommentExclude(path: NodePath, ast: ParseResult<File>,) {
         )
       },)
     }
+    return false
   }
   return check(leadingComments,) || check(ast.comments,)
 }
@@ -147,6 +148,7 @@ export default function({
         } else if (item.type === 'ImportSpecifier') {
           return item.imported.type === 'Identifier' && item.imported.name === dependency.name
         }
+        return false
       },)
       if (matched) {
         (loadedDependency = true)

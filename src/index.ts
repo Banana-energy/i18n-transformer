@@ -1,11 +1,11 @@
 import transform from './transform/index'
 import generate from './generate/index'
 import {
-  createFilter, PluginOption,
+  createFilter, Plugin,
 } from 'vite'
-import collectInit from './common/collect'
+import collectInit, { Options, } from './common/collect'
 
-export default (options = {},): PluginOption => {
+export default (options: Options = {},): Plugin => {
   const { setting, } = collectInit(options,)
   let isBuild = false
   return {

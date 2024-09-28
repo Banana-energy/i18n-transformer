@@ -28,16 +28,35 @@ export interface DependencySetting {
 export interface GlobalSetting {
   output: OutputSetting;
   localePattern: RegExp;
-  keyRule?: ((value: string, node?: Node, map?: Record<string, string>) => string) | null;
+  keyRule?: ((value: string, node: Node, map: WordMap) => string) | null;
   include?: string[];
   exclude?: string[];
   i18nCallee: string;
   dependency?: DependencySetting;
 }
 
+export type Options = Partial<GlobalSetting>
+
+const defaultKeyRule = (value: string, node: Node, exist: WordMap,) => {
+  let key = md5(value,)
+  let index = 1
+  const generateKey = () => {
+    while (exist[key]) {
+      if (key.includes('-',)) {
+        key = key.replace(/-\d+$/, `-${index}`,)
+      } else {
+        key = `${key}-${index}`
+      }
+      index++
+    }
+    return key
+  }
+  return generateKey()
+}
+
 export let globalSetting: GlobalSetting = {} as GlobalSetting;
 
-function initSetting(setting: Partial<GlobalSetting>,) {
+function initSetting(setting: Options,) {
   const defaultFile: FileSetting = {
     filename: 'zh.json',
     path: path.resolve(rootPath, './lang',),
@@ -48,7 +67,7 @@ function initSetting(setting: Partial<GlobalSetting>,) {
       ...defaultFile,
     },
     localePattern: /[\u4e00-\u9fa5]+/, // chinese
-    keyRule: null,
+    keyRule: defaultKeyRule,
     include: undefined,
     exclude: undefined,
     i18nCallee: '',
@@ -71,29 +90,12 @@ function initSetting(setting: Partial<GlobalSetting>,) {
 /**
  * Initialize
  */
-export default function init(options: Partial<GlobalSetting>,) {
+export default function init(options: Options,) {
   initSetting(options,)
 
   return {
     setting: globalSetting,
   }
-}
-
-const defaultKeyRule = (value: string, node: Node, exist: WordMap,) => {
-  let key = md5(value,)
-  let index = 1
-  const generateKey = () => {
-    while (exist[key]) {
-      if (key.includes('-',)) {
-        key = key.replace(/-\d+$/, `-${index}`,)
-      } else {
-        key = `${key}-${index}`
-      }
-      index++
-    }
-    return key
-  }
-  return generateKey()
 }
 
 export const setConfig = (value: string, node: Node,) => {

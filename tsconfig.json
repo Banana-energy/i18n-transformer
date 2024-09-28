@@ -1,19 +1,23 @@
 {
   "include": [
-    "src"
+    "src",
   ],
   "compilerOptions": {
-    "outDir": "dist",
-    "target": "ES2020",
-    "module": "ES2020",
-    "moduleResolution": "node",
-    "strict": true,
+    "target": "esnext",
+    "module": "CommonJS",
+    "lib": ["esnext"],
     "declaration": true,
-    "sourceMap": true,
-    "noImplicitOverride": true,
-    "noUnusedLocals": true,
+    "strict": true,
+    "experimentalDecorators": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "baseUrl": ".",
-    "resolveJsonModule": true
+    "moduleResolution": "node",
+    "baseUrl": "."
   }
 }
