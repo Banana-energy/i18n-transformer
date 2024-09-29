@@ -1,6 +1,4 @@
-import {
-  parse, ParseResult,
-} from '@babel/parser'
+import { parse, } from '@babel/parser'
 import traverse, {
   NodePath, TraverseOptions,
 } from '@babel/traverse'
@@ -13,9 +11,7 @@ import {
 } from '../common/collect'
 import {
   ArgumentPlaceholder,
-  Comment,
   Expression,
-  File,
   Node,
   ObjectProperty,
   PrivateName,
@@ -61,46 +57,18 @@ function isInConsole(path: NodePath<StringLiteral> | NodePath<TemplateLiteral>,)
   return false
 }
 
-function findCommentExclude(path: NodePath, ast: ParseResult<File>,) {
-  //If from TemplateLiteral to StringLiteral
-  if (!path.node.loc) {
+function findCommentExclude(path: NodePath,) {
+  const parent = getParent(path,)
+  if (!parent) {
     return false
   }
-  // Vue3-通过找爷爷节点然后遍历是否有注释节点
-  const parentArrayExpression = getParent(path, 2,)
-  if (parentArrayExpression && parentArrayExpression.type === 'ArrayExpression') {
-    const index = parentArrayExpression.elements.findIndex((e,) => e === path.parent,)
-    if (index > 0) {
-      const prevNode = parentArrayExpression.elements[index - 1]
-      if (
-        prevNode &&
-        prevNode.type === 'CallExpression' &&
-        (prevNode.callee as WithName).name === '_createCommentVNode' &&
-        prevNode.arguments.length
-      ) {
-        return prevNode.arguments.some((e,) => (e as WithValue).value.trim() === 'no-i18n-auto',)
-      }
-    }
-  }
-  const startLine = path.node.loc.start.line
-  const leadingComments = path.node.leadingComments
-  const check = (commentList?: Comment[] | null,) => {
-    if (commentList && commentList.length) {
-      return commentList.some((comment,) => {
-        const {
-          type, value, loc,
-        } = comment
-        const commentStartLine = loc!.start.line
-        return (
-          type === 'CommentBlock' &&
-          value.trim() === 'no-i18n-auto' &&
-          (commentStartLine === startLine || commentStartLine + 1 === startLine)
-        )
-      },)
-    }
-    return false
-  }
-  return check(leadingComments,) || check(ast.comments,)
+  return (
+    (parent.type === 'CallExpression' && 'name' in parent.callee ? parent.callee.name === 'noI18nAuto' : false) ||
+    // vue中
+    (parent.type === 'CallExpression' &&
+    parent.callee.type === 'MemberExpression' &&
+    'name' in parent.callee.property ? parent.callee.property.name === 'noI18nAuto' : false)
+  )
 }
 
 function matchVueFileSpecialRule(path: NodePath<StringLiteral>, id: string,) {
@@ -123,7 +91,7 @@ function matchVueFileSpecialRule(path: NodePath<StringLiteral>, id: string,) {
         if (theParent2 && theParent2.type === 'CallExpression') {
           const theParent3 = getParent(path, 4,)
           if (
-            (theParent2.callee as WithName).name === '_export_sfc' &&
+            (theParent2.callee).name === '_export_sfc' &&
             theParent3 &&
             theParent3.type === 'ExportDefaultDeclaration'
           ) {
@@ -214,7 +182,7 @@ export default function({
       ) {
         return
       }
-      if (findCommentExclude(path, ast,)) {
+      if (findCommentExclude(path,)) {
         return
       }
 
@@ -249,7 +217,7 @@ export default function({
       }
     },
     TemplateLiteral(path,) {
-      if (findCommentExclude(path, ast,)) {
+      if (findCommentExclude(path,)) {
         return
       }
       if (isInConsole(path,)) {
