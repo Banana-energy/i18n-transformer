@@ -8,26 +8,26 @@ An automatic i18n conversion Vite plugin.
 
 ```js
 import i18nTransformer from "vite-plugin-i18n-transformer";
-import { defineConfig } from 'vite'
+import {defineConfig} from 'vite'
 import path from 'path'
 
 export default defineConfig({
-  plugins: [
-    i18nTransformer({
-      include: ['**.js', '**.vue'],                      // 针对什么文件进行国际化
-      i18nCallee: 'useI18n().t',                         // 调用国际化函数
-      dependency: {                                      // 国际化函数依赖引入配置
-        name: 'useI18n',                                 // 国际化函数依赖的名称
-        value: '@/hooks/web/useI18n',                    // 引入国际化函数的路径
-        objectPattern: true                              // 引入的国际化函数依赖的形式。true为解构形式：import { name } from 'xxx'
-      },
-      output: {
-        filename: 'zh-CN.json',                          // 生成中文配置的文件名
-        langList: ['en-US.json'],                        // 生成其他语言配置的文件名列表
-        path: path.resolve(process.cwd(), './lang'),     // 生成文件的路径
-      }
-    }),
-  ],
+    plugins: [
+        i18nTransformer({
+            include: ['**.js', '**.vue'],                      // 针对什么文件进行国际化
+            i18nCallee: 'useI18n().t',                         // 调用国际化函数
+            dependency: {                                      // 国际化函数依赖引入配置
+                name: 'useI18n',                                 // 国际化函数依赖的名称
+                value: '@/hooks/web/useI18n',                    // 引入国际化函数的路径
+                objectPattern: true                              // 引入的国际化函数依赖的形式。true为解构形式：import { name } from 'xxx'
+            },
+            output: {
+                filename: 'zh-CN.json',                          // 生成中文配置的文件名
+                langList: ['en-US.json'],                        // 生成其他语言配置的文件名列表
+                path: path.resolve(process.cwd(), './lang'),     // 生成文件的路径
+            }
+        }),
+    ],
 })
 ```
 
@@ -112,3 +112,7 @@ export interface GlobalSetting {
   dependency?: DependencySetting;
 }
 ```
+
+## Thanks
+
+- [@pekonchan](https://github.com/pekonchan/rollup-plugin-i18n-auto)

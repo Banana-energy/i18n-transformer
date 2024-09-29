@@ -68,10 +68,14 @@ function findCommentExclude(path: NodePath, ast: ParseResult<File>,) {
   const check = (commentList?: Comment[] | null,) => {
     if (commentList && commentList.length) {
       return commentList.some((comment,) => {
+        const {
+          type, value, loc,
+        } = comment
+        const commentStartLine = loc!.start.line
         return (
-          comment.type === 'CommentBlock' &&
-          comment.value.trim() === 'no-i18n-auto' &&
-          comment.loc?.start.line === startLine
+          type === 'CommentBlock' &&
+          value.trim() === 'no-i18n-auto' &&
+          (commentStartLine === startLine || commentStartLine + 1 === startLine)
         )
       },)
     }
@@ -125,7 +129,7 @@ export default function({
   let loadedDependency = false
   const {
     i18nCallee = '',
-    dependency, // {name, value, objectPattern}
+    dependency,
     localePattern,
   } = options || {}
 
