@@ -28,6 +28,11 @@ import {
 } from '@babel/types'
 import { WordMap, } from '../generate/collectWords';
 
+type WithCallee = Extract<Node, { callee: Expression | Super | V8IntrinsicIdentifier; }>;
+type WithName = Extract<V8IntrinsicIdentifier | Expression | PrivateName, { name: string }>
+type WithValue = Extract<(ArgumentPlaceholder | SpreadElement | Expression), { value: string; }>;
+type WithKey = Extract<(ObjectProperty | RestElement), { key: PrivateName | Expression; }>;
+
 function getParent(path?: NodePath | null, deep = 1,) {
   let tempPath = path;
   for (let i = 0; i < deep - 1; i++) {
@@ -41,8 +46,6 @@ function decodeUnicode(str: string,) {
     return String.fromCharCode(parseInt(match.replace(/\\u/g, '',), 16,),)
   },)
 }
-
-type WithCallee = Extract<Node, { callee: Expression | Super | V8IntrinsicIdentifier; }>;
 
 function isInConsole(path: NodePath<StringLiteral> | NodePath<TemplateLiteral>,) {
   const parent = path.parent as WithCallee
@@ -62,6 +65,22 @@ function findCommentExclude(path: NodePath, ast: ParseResult<File>,) {
   //If from TemplateLiteral to StringLiteral
   if (!path.node.loc) {
     return false
+  }
+  // Vue3-通过找爷爷节点然后遍历是否有注释节点
+  const parentArrayExpression = getParent(path, 2,)
+  if (parentArrayExpression && parentArrayExpression.type === 'ArrayExpression') {
+    const index = parentArrayExpression.elements.findIndex((e,) => e === path.parent,)
+    if (index > 0) {
+      const prevNode = parentArrayExpression.elements[index - 1]
+      if (
+        prevNode &&
+        prevNode.type === 'CallExpression' &&
+        (prevNode.callee as WithName).name === '_createCommentVNode' &&
+        prevNode.arguments.length
+      ) {
+        return prevNode.arguments.some((e,) => (e as WithValue).value.trim() === 'no-i18n-auto',)
+      }
+    }
   }
   const startLine = path.node.loc.start.line
   const leadingComments = path.node.leadingComments
@@ -83,8 +102,6 @@ function findCommentExclude(path: NodePath, ast: ParseResult<File>,) {
   }
   return check(leadingComments,) || check(ast.comments,)
 }
-
-type WithName = Extract<V8IntrinsicIdentifier | Expression | PrivateName, { name: string }>
 
 function matchVueFileSpecialRule(path: NodePath<StringLiteral>, id: string,) {
   const pathParent = path.parent
@@ -118,9 +135,6 @@ function matchVueFileSpecialRule(path: NodePath<StringLiteral>, id: string,) {
   }
   return false
 }
-
-type WithValue = Extract<(ArgumentPlaceholder | SpreadElement | Expression), { value: string; }>;
-type WithKey = Extract<(ObjectProperty | RestElement), { key: PrivateName | Expression; }>;
 
 export default function({
   id, code,
