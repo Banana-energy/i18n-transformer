@@ -1,0 +1,18 @@
+{
+  "name": "@karpo/vite-plugin",
+  "version": "1.0.0",
+  "description": "vite-plugin-i18n-transformer",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "author": "Banana-energy",
+  "license": "MIT",
+  "devDependencies": {
+    "vite": "^5.4.8"
+  },
+  "dependencies": {
+    "@karpo/shared": "workspace:^"
+  }
+}

@@ -1,5 +1,5 @@
 import {
-  getWordMap, setWordMap, type WordMap,
+  type WordMap, getWordMap, setWordMap,
 } from '../generate/collectWords'
 import type { Node, } from '@babel/types'
 import path from 'node:path'
@@ -80,10 +80,7 @@ function initSetting(setting: Options,) {
   return defaultSetting
 }
 
-/**
- * Initialize
- */
-export default function init(options: Options,) {
+export function init(options: Options,) {
   return {
     setting: initSetting(options,),
   }

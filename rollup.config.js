@@ -1,21 +1,20 @@
 import typescript from 'rollup-plugin-ts'
 
-const config = {
-  input: 'src/index.ts',
+const packageNames = ['shared', 'vite-plugin', 'webpack-plugin',];
+const packages = packageNames.map((packageName,) => ({
+  input: `packages/${packageName}/index.ts`,
   output: [
     {
-      file: './dist/index.cjs',
+      file: `./packages/${packageName}/dist/index.cjs`,
       format: 'cjs',
     },
     {
-      file: './dist/index.js',
+      file: `./packages/${packageName}/dist/index.js`,
       format: 'es',
     },
   ],
-  external: [
-    'path',
-  ],
+  external: ['path',],
   plugins: [typescript(),],
-}
+}),);
 
-export default config
+export default packages

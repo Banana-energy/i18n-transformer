@@ -3,9 +3,9 @@ import {
   existsSync, mkdirSync, readFileSync, writeFileSync,
 } from 'node:fs';
 import { getWordMap, } from './collectWords';
-import { OutputSetting, } from '../common/collect';
+import type { OutputSetting, } from '../common/collect';
 
-export default function(output: OutputSetting,): void {
+export function generate(output: OutputSetting,): void {
   const dir = output.path;
   if (!existsSync(dir,)) {
     mkdirSync(dir, {

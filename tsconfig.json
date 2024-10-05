@@ -1,11 +1,13 @@
 {
   "include": [
-    "src",
+    "packages"
   ],
   "compilerOptions": {
     "target": "esnext",
     "module": "CommonJS",
-    "lib": ["esnext"],
+    "lib": [
+      "esnext"
+    ],
     "declaration": true,
     "strict": true,
     "experimentalDecorators": true,

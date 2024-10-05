@@ -1,12 +1,12 @@
-import transform from './transform/index'
-import generate from './generate/index'
 import {
-  createFilter, Plugin,
+  type Plugin, createFilter,
 } from 'vite'
-import collectInit, { Options, } from './common/collect'
+import {
+  type Options, generate, init, transform,
+} from '@karpo/shared'
 
 export default (options: Options = {},): Plugin => {
-  const { setting, } = collectInit(options,)
+  const { setting, } = init(options,)
   let isBuild = false
   return {
     name: 'i18n-transformer',
@@ -39,7 +39,7 @@ export default (options: Options = {},): Plugin => {
       if (!isBuild) {
         return
       }
-      generate.call(this, setting.output,)
+      generate(setting.output,)
     },
   }
 }

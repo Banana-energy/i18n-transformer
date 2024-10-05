@@ -1,0 +1,16 @@
+{
+  "name": "@karpo/webpack-plugin",
+  "version": "1.0.0",
+  "description": "webpack-plugin-i18n-transformer",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "author": "Banana-energy",
+  "license": "MIT",
+  "dependencies": {
+    "@karpo/shared": "workspace:^",
+    "webpack": "^5.95.0"
+  }
+}

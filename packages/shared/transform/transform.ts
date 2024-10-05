@@ -1,29 +1,29 @@
 import {
-  ArrayExpression,
-  AssignmentPattern,
-  BinaryExpression,
+  type ArrayExpression,
+  type AssignmentPattern,
+  type BinaryExpression,
+  type CallExpression,
+  type ConditionalExpression,
+  type Expression,
+  type LogicalExpression,
+  type NewExpression,
+  type ObjectProperty,
+  type ReturnStatement,
+  type StringLiteral,
+  type TemplateLiteral,
+  type VariableDeclarator,
   binaryExpression,
-  CallExpression,
   callExpression,
-  ConditionalExpression,
-  Expression,
   identifier,
-  LogicalExpression,
-  NewExpression,
   objectExpression,
-  ObjectProperty,
   objectProperty,
-  ReturnStatement,
-  StringLiteral,
   stringLiteral,
-  TemplateLiteral,
-  VariableDeclarator,
 } from '@babel/types'
 import {
-  GlobalSetting, setConfig,
+  type GlobalSetting, setConfig,
 } from '../common/collect'
-import { NodePath, } from '@babel/traverse';
-import { WordMap, } from '../generate/collectWords';
+import type { NodePath, } from '@babel/traverse';
+import type { WordMap, } from '../generate/collectWords';
 
 // const localeWordPattern = /(\S.*)*[\u4e00-\u9fa5]+(.*\S)*/g
 

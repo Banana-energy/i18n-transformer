@@ -1,7 +1,7 @@
 {
-  "name": "vite-plugin-i18n-transformer",
+  "name": "@karpo/i18n-transformer",
   "version": "1.0.0",
-  "description": "An automatic i18n conversion Vite plugin.",
+  "description": "An automatic i18n conversion plugin.",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "type": "module",
@@ -19,23 +19,15 @@
   ],
   "author": "Banana-energy",
   "license": "MIT",
-  "dependencies": {
-    "@babel/generator": "^7.22.9",
-    "@babel/parser": "^7.22.7",
-    "@babel/traverse": "^7.22.8",
-    "@babel/types": "^7.22.5"
-  },
   "devDependencies": {
     "@eslint/js": "^9.11.1",
-    "@types/babel__generator": "^7.6.8",
-    "@types/babel__traverse": "^7.20.6",
     "@types/node": "^22.7.2",
     "eslint": "^8.57.1",
+    "eslint-plugin-import-x": "^4.3.1",
     "globals": "^15.9.0",
     "rollup": "^4.22.5",
     "rollup-plugin-ts": "^3.4.5",
     "typescript": "^5.6.2",
-    "typescript-eslint": "^8.7.0",
-    "vite": "^5.4.8"
+    "typescript-eslint": "^8.7.0"
   }
 }

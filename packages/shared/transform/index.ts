@@ -1,15 +1,15 @@
 import { parse, } from '@babel/parser'
 import traverse, {
-  NodePath, TraverseOptions,
+  type NodePath, type TraverseOptions,
 } from '@babel/traverse'
 import generator from '@babel/generator'
 import {
   localeWordPattern, transCode, transformTemplate,
 } from './transform'
 import {
-  GlobalSetting, setConfig,
+  type GlobalSetting, setConfig,
 } from '../common/collect'
-import {
+import type {
   ArgumentPlaceholder,
   Expression,
   Node,
@@ -23,7 +23,7 @@ import {
   TemplateLiteral,
   V8IntrinsicIdentifier,
 } from '@babel/types'
-import { WordMap, } from '../generate/collectWords';
+import type { WordMap, } from '../generate/collectWords';
 
 type WithCallee = Extract<Node, { callee: Expression | Super | V8IntrinsicIdentifier; }>;
 type WithName = Extract<V8IntrinsicIdentifier | Expression | PrivateName, { name: string }>
@@ -106,7 +106,7 @@ function matchVueFileSpecialRule(path: NodePath<StringLiteral>, id: string,) {
   return false
 }
 
-export default function({
+export function transform({
   id, code,
 }: { id: string; code: string }, options: GlobalSetting,) {
   const collection = []
