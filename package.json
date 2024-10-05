@@ -1,7 +1,7 @@
 {
   "name": "@karpo/i18n-transformer",
   "version": "1.0.0",
-  "description": "An automatic i18n conversion plugin.",
+  "description": "An automatic i18n conversion Vite/Webpack plugin.",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "type": "module",
@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "build": "pnpm run clear && rollup -c",
-    "release": "pnpm run clear && pnpm -r --filter=./packages/** run release && rollup -c && npm publish && git push --follow-tags origin main",
+    "release": "pnpm run build && npm publish && git push --follow-tags origin main",
     "release:shared": "pnpm run clear && pnpm -r --filter=./packages/shared run release && rollup -c && npm publish ./packages/shared/dist && git push --follow-tags origin main",
     "release:vite-plugin": "pnpm run clear && pnpm -r --filter=./packages/vite-plugin run release && rollup -c && npm publish ./packages/vite-plugin/dist && git push --follow-tags origin main",
     "release:webpack-plugin": "pnpm run clear && pnpm -r --filter=./packages/webpack-plugin run release && rollup -c && npm publish ./packages/webpack-plugin/dist && git push --follow-tags origin main",
