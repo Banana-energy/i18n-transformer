@@ -4,6 +4,9 @@ import tseslint from 'typescript-eslint';
 
 export default [
   {
+    ignores: ['dist/**',],
+  },
+  {
     files: ['**/*.{js,mjs,cjs,ts}',],
   },
   {
@@ -19,7 +22,8 @@ export default [
         'SwitchCase': 1,
       },],
       quotes: [2, 'single', {
-        avoidEscape: true, allowTemplateLiterals: true,
+        avoidEscape: true,
+        allowTemplateLiterals: true,
       },],
       'quote-props': 'off',
       'no-shadow': ['error',],
@@ -27,16 +31,20 @@ export default [
         'error',
         {
           ObjectExpression: {
-            multiline: true, minProperties: 1,
+            multiline: true,
+            minProperties: 1,
           },
           ObjectPattern: {
-            multiline: true, minProperties: 2,
+            multiline: true,
+            minProperties: 2,
           },
           ImportDeclaration: {
-            multiline: true, minProperties: 2,
+            multiline: true,
+            minProperties: 2,
           },
           ExportDeclaration: {
-            multiline: true, minProperties: 2,
+            multiline: true,
+            minProperties: 2,
           },
         },
       ],

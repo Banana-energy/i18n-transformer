@@ -20,7 +20,7 @@ import {
   VariableDeclarator,
 } from '@babel/types'
 import {
-  globalSetting, setConfig,
+  GlobalSetting, setConfig,
 } from '../common/collect'
 import { NodePath, } from '@babel/traverse';
 import { WordMap, } from '../generate/collectWords';
@@ -36,8 +36,8 @@ type TransformOptions =
   }
 
 
-export const localeWordPattern = (word: string,): string[] | null => {
-  const pattern = globalSetting.localePattern;
+export const localeWordPattern = (word: string, options: GlobalSetting,): string[] | null => {
+  const pattern = options.localePattern;
   if (!pattern.test(word,)) return null;
 
   return word.split('\n',).map((line,) => {
@@ -53,8 +53,8 @@ const createSplitNode = ({
   word: string;
   wordKeyMap: Record<string, string>;
   callee: string
-},) => {
-  if (!globalSetting.localePattern.test(word,)) return [stringLiteral(word,),];
+}, options: GlobalSetting,) => {
+  if (!options.localePattern.test(word,)) return [stringLiteral(word,),];
 
   const firstCharNotSpace = word.match(/\S/,)?.index ?? 0;
   const lastSpace = word.match(/\s+$/,)?.index ?? word.length;
@@ -68,8 +68,8 @@ const createSplitNode = ({
 
 const createT = ({
   originValue, wordKeyMap, callee,
-}: TransformOptions,) => {
-  if (!globalSetting.localePattern.test(originValue,)) {
+}: TransformOptions, options: GlobalSetting,) => {
+  if (!options.localePattern.test(originValue,)) {
     return
   }
   const splits: (StringLiteral | CallExpression)[] = []
@@ -77,7 +77,7 @@ const createT = ({
   wordByLines.forEach((wordLine,) => {
     const res = createSplitNode({
       word: wordLine, wordKeyMap, callee,
-    },)
+    }, options,)
     splits.push(...res as Exclude<typeof res[number], undefined>[],)
   },)
 
@@ -101,7 +101,7 @@ const createT = ({
   }
 }
 
-function transMethodArg(params: TransformOptions,) {
+function transMethodArg(params: TransformOptions, options: GlobalSetting,) {
   const {
     path, originValue,
   } = params
@@ -109,10 +109,10 @@ function transMethodArg(params: TransformOptions,) {
   const argI = parent.arguments.findIndex(
     (item,) => item.type === 'StringLiteral' && item.value === originValue,
   )
-  parent.arguments[argI] = createT(params,)!
+  parent.arguments[argI] = createT(params, options,)!
 }
 
-function transArrayEle(params: TransformOptions,) {
+function transArrayEle(params: TransformOptions, options: GlobalSetting,) {
   const {
     path, originValue,
   } = params
@@ -120,35 +120,35 @@ function transArrayEle(params: TransformOptions,) {
   const eleI = parent.elements.findIndex(
     (item,) => item?.type === 'StringLiteral' && item?.value === originValue,
   )
-  parent.elements[eleI] = createT(params,)!
+  parent.elements[eleI] = createT(params, options,)!
 }
 
-function transVarDec(params: TransformOptions,) {
+function transVarDec(params: TransformOptions, options: GlobalSetting,) {
   const { path, } = params
   const parent = path.parent as VariableDeclarator
-  parent.init = createT(params,)
+  parent.init = createT(params, options,)
 }
 
-function transBinaryExp(params: TransformOptions,) {
+function transBinaryExp(params: TransformOptions, options: GlobalSetting,) {
   const {
     path, originValue,
   } = params
   const parent = path.parent as BinaryExpression
   const left = parent.left
   if (left.type === 'StringLiteral' && left.value === originValue) {
-    parent.left = createT(params,)!
+    parent.left = createT(params, options,)!
   } else {
-    parent.right = createT(params,)!
+    parent.right = createT(params, options,)!
   }
 }
 
-function transObjectValue(params: TransformOptions,) {
+function transObjectValue(params: TransformOptions, options: GlobalSetting,) {
   const { path, } = params
   const parent = path.parent as ObjectProperty
-  parent.value = createT(params,)!
+  parent.value = createT(params, options,)!
 }
 
-function transCondExp(params: TransformOptions,) {
+function transCondExp(params: TransformOptions, options: GlobalSetting,) {
   const {
     path, originValue,
   } = params
@@ -157,15 +157,15 @@ function transCondExp(params: TransformOptions,) {
     consequent, alternate, test,
   } = parent
   if (test.type === 'StringLiteral' && test.value === originValue) {
-    parent.test = createT(params,)!
+    parent.test = createT(params, options,)!
   } else if (consequent.type === 'StringLiteral' && consequent.value === originValue) {
-    parent.consequent = createT(params,)!
+    parent.consequent = createT(params, options,)!
   } else if (alternate.type === 'StringLiteral' && alternate.value === originValue) {
-    parent.alternate = createT(params,)!
+    parent.alternate = createT(params, options,)!
   }
 }
 
-function transLogicExp(params: TransformOptions,) {
+function transLogicExp(params: TransformOptions, options: GlobalSetting,) {
   const {
     path, originValue,
   } = params
@@ -174,32 +174,32 @@ function transLogicExp(params: TransformOptions,) {
     left, right,
   } = parent
   if (left.type === 'StringLiteral' && left.value === originValue) {
-    parent.left = createT(params,)!
+    parent.left = createT(params, options,)!
   } else if (right.type === 'StringLiteral' && right.value === originValue) {
-    parent.right = createT(params,)!
+    parent.right = createT(params, options,)!
   }
 }
 
-function transReturnState(params: TransformOptions,) {
+function transReturnState(params: TransformOptions, options: GlobalSetting,) {
   const { path, } = params
   const parent = path.parent as ReturnStatement
-  parent.argument = createT(params,)
+  parent.argument = createT(params, options,)
 }
 
-function transAssign(params: TransformOptions,) {
+function transAssign(params: TransformOptions, options: GlobalSetting,) {
   const {
     path, originValue,
   } = params
   const parent = path.parent as AssignmentPattern
   const { right, } = parent
   if (right.type === 'StringLiteral' && right.value === originValue) {
-    parent.right = createT(params,)!
+    parent.right = createT(params, options,)!
   }
 }
 
 export function transformTemplate({
   path, callee,
-}: { path: NodePath<TemplateLiteral>, callee: string },) {
+}: { path: NodePath<TemplateLiteral>, callee: string }, options: GlobalSetting,) {
   let variableCount = 1
   const expressions = path.node.expressions
   const quasis = path.node.quasis
@@ -219,7 +219,7 @@ export function transformTemplate({
       },)
       .join('',)
 
-    const key = setConfig(newStringParts, path.node,)
+    const key = setConfig(newStringParts, path.node, options,)
 
     // 替换模板字符串为 useI18n().t('key', { var1: ..., var2: ... })
     const i18nCall = callExpression(identifier(callee,), [
@@ -232,37 +232,37 @@ export function transformTemplate({
   }
 }
 
-export function transCode(params: TransformOptions,) {
+export function transCode(params: TransformOptions, options: GlobalSetting,) {
   const { path, } = params
   switch (path.parent.type) {
     case 'NewExpression':
     case 'CallExpression':
-      transMethodArg(params,)
+      transMethodArg(params, options,)
       break
     case 'ArrayExpression':
-      transArrayEle(params,)
+      transArrayEle(params, options,)
       break
     case 'VariableDeclarator':
-      transVarDec(params,)
+      transVarDec(params, options,)
       break
     case 'BinaryExpression':
-      transBinaryExp(params,)
+      transBinaryExp(params, options,)
       break
     case 'ObjectProperty':
-      transObjectValue(params,)
+      transObjectValue(params, options,)
       break
     case 'ConditionalExpression':
-      transCondExp(params,)
+      transCondExp(params, options,)
       break
     case 'LogicalExpression':
-      transLogicExp(params,)
+      transLogicExp(params, options,)
       break
     case 'ReturnStatement':
-      transReturnState(params,)
+      transReturnState(params, options,)
       break
     case 'AssignmentExpression':
     case 'AssignmentPattern':
-      transAssign(params,)
+      transAssign(params, options,)
       break
   }
 }

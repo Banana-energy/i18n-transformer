@@ -1,7 +1,7 @@
 import {
-  getWordMap, setWordMap, WordMap,
+  getWordMap, setWordMap, type WordMap,
 } from '../generate/collectWords'
-import { Node, } from '@babel/types'
+import type { Node, } from '@babel/types'
 import path from 'node:path'
 import { md5, } from './utils';
 
@@ -16,6 +16,7 @@ export interface OutputSetting {
 export interface DependencySetting {
   name: string
   path: string
+  preprocessing?: string
   objectPattern: boolean
 }
 
@@ -48,8 +49,6 @@ const defaultKeyRule = (value: string, node: Node, exist: WordMap,) => {
   return generateKey()
 }
 
-export let globalSetting: GlobalSetting = {} as GlobalSetting;
-
 function initSetting(setting: Options,) {
   const defaultFile: OutputSetting = {
     filename: 'zh.json',
@@ -60,7 +59,7 @@ function initSetting(setting: Options,) {
     output: {
       ...defaultFile,
     },
-    localePattern: /[\u4e00-\u9fa5]+/, // chinese
+    localePattern: /[\u4e00-\u9fa5]+/, // Chinese
     keyRule: defaultKeyRule,
     include: undefined,
     exclude: undefined,
@@ -78,24 +77,21 @@ function initSetting(setting: Options,) {
     }
   },);
 
-  globalSetting = defaultSetting
+  return defaultSetting
 }
 
 /**
  * Initialize
  */
 export default function init(options: Options,) {
-  initSetting(options,)
-
   return {
-    setting: globalSetting,
+    setting: initSetting(options,),
   }
 }
 
-export const setConfig = (value: string, node: Node,) => {
-  const keyRule = globalSetting.keyRule || defaultKeyRule
+export const setConfig = (value: string, node: Node, option: GlobalSetting,) => {
+  const keyRule = option.keyRule || defaultKeyRule
   const key = keyRule(value, node, getWordMap(),);
   setWordMap(key, value,);
   return key;
-
 }

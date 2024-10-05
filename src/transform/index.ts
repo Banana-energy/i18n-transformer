@@ -17,6 +17,7 @@ import {
   PrivateName,
   RestElement,
   SpreadElement,
+  Statement,
   StringLiteral,
   Super,
   TemplateLiteral,
@@ -63,11 +64,11 @@ function findCommentExclude(path: NodePath,) {
     return false
   }
   return (
-    (parent.type === 'CallExpression' && 'name' in parent.callee ? parent.callee.name === 'noI18nAuto' : false) ||
-    // vue中
+    (parent.type === 'CallExpression' && 'name' in parent.callee ? parent.callee.name === 'ignoreAutoI18n' : false) ||
+    // vue3的template中
     (parent.type === 'CallExpression' &&
     parent.callee.type === 'MemberExpression' &&
-    'name' in parent.callee.property ? parent.callee.property.name === 'noI18nAuto' : false)
+    'name' in parent.callee.property ? parent.callee.property.name === 'ignoreAutoI18n' : false)
   )
 }
 
@@ -91,7 +92,8 @@ function matchVueFileSpecialRule(path: NodePath<StringLiteral>, id: string,) {
         if (theParent2 && theParent2.type === 'CallExpression') {
           const theParent3 = getParent(path, 4,)
           if (
-            (theParent2.callee).name === '_export_sfc' &&
+            'name' in theParent2.callee &&
+            theParent2.callee.name === '_export_sfc' &&
             theParent3 &&
             theParent3.type === 'ExportDefaultDeclaration'
           ) {
@@ -196,11 +198,11 @@ export default function({
           if (matchVueFileSpecialRule(path, id,)) {
             return
           }
-          const res = localeWordPattern(val,)
+          const res = localeWordPattern(val, options,)
           if (res && res.length) {
             const wordKeyMap: WordMap = {}
             res.forEach((word,) => {
-              const key = setConfig(word, path.node,)
+              const key = setConfig(word, path.node, options,)
               collection.push({
                 [key]: word,
               },)
@@ -211,7 +213,7 @@ export default function({
               originValue: val,
               wordKeyMap,
               callee: i18nCallee,
-            },)
+            }, options,)
           }
         }
       }
@@ -231,7 +233,7 @@ export default function({
       }
       transformTemplate({
         path, callee: i18nCallee,
-      },)
+      }, options,)
     },
   }
   traverse(ast, visitor,)
@@ -251,7 +253,21 @@ export default function({
     const i18nImportAst = parse(i18nImport, {
       sourceType: 'module',
     },)
+    const dependencyPreprocessing = dependency.preprocessing
+    let preprocessingBody: Statement[] = []
+    if (dependencyPreprocessing) {
+      const preprocessingAst = parse(dependencyPreprocessing, {
+        sourceType: 'module',
+      },)
+      preprocessingBody = preprocessingAst.program.body
+    }
     ast.program.body = i18nImportAst.program.body.concat(ast.program.body,)
+    const firstNonImportIndex = ast.program.body.findIndex(
+      (item,) => item.type !== 'ImportDeclaration',
+    )
+    if (firstNonImportIndex !== -1) {
+      ast.program.body.splice(firstNonImportIndex, 0, ...preprocessingBody,)
+    }
   }
 
   const {
