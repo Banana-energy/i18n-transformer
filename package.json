@@ -1,6 +1,6 @@
 {
-  "name": "@karpo/i18n-transformer",
-  "version": "1.0.0",
+  "name": "@kapo/i18n-transformer",
+  "version": "0.0.0",
   "description": "An automatic i18n conversion Vite/Webpack plugin.",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -35,6 +35,9 @@
       "commitMessage": "chore: release ${version}",
       "tagName": "v${version}"
     }
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "devDependencies": {
     "@eslint/js": "^9.11.1",

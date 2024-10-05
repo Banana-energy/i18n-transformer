@@ -1,5 +1,5 @@
 {
-  "name": "@karpo/webpack-plugin",
+  "name": "@kapo/webpack-plugin",
   "version": "0.0.0",
   "description": "webpack-plugin-i18n-transformer",
   "main": "dist/index.cjs",
@@ -30,7 +30,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@karpo/shared": "0.0.0",
+    "@kapo/shared": "0.0.0",
     "webpack": "^5.95.0"
   },
   "devDependencies": {

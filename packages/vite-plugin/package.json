@@ -1,5 +1,5 @@
 {
-  "name": "@karpo/vite-plugin",
+  "name": "@kapo/vite-plugin",
   "version": "0.0.0",
   "description": "vite-plugin-i18n-transformer",
   "main": "dist/index.cjs",
@@ -35,6 +35,6 @@
     "vite": "^5.4.8"
   },
   "dependencies": {
-    "@karpo/shared": "0.0.0"
+    "@kapo/shared": "0.0.0"
   }
 }

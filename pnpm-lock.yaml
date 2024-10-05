@@ -75,7 +75,7 @@ importers:
 
   packages/vite-plugin:
     dependencies:
-      '@karpo/shared':
+      '@kapo/shared':
         specifier: workspace:^
         version: link:../shared
     devDependencies:
@@ -91,7 +91,7 @@ importers:
 
   packages/webpack-plugin:
     dependencies:
-      '@karpo/shared':
+      '@kapo/shared':
         specifier: workspace:^
         version: link:../shared
       webpack:

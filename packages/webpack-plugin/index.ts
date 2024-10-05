@@ -1,6 +1,6 @@
 import {
   type GlobalSetting, type Options, init,
-} from '@karpo/shared';
+} from '@kapo/shared';
 import type { Compiler, } from 'webpack';
 
 class i18nTransformerPlugin {

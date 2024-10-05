@@ -3,7 +3,7 @@ import {
 } from 'vite'
 import {
   type Options, generate, init, transform,
-} from '@karpo/shared'
+} from '@kapo/shared'
 
 export default (options: Options = {},): Plugin => {
   const { setting, } = init(options,)
