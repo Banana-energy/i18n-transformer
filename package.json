@@ -15,7 +15,7 @@
   ],
   "scripts": {
     "build": "pnpm run clear && rollup -c",
-    "release": "pnpm run clear && pnpm run release --workspaces && release-it",
+    "release": "pnpm run build && npm run release --workspaces && release-it",
     "clear": "pnpm -r --filter=./packages/** run clear"
   },
   "keywords": [
