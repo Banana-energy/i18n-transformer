@@ -8,12 +8,14 @@
   "files": [
     "dist"
   ],
+  "workspaces": [
+    "packages/shared",
+    "packages/vite-plugin",
+    "packages/webpack-plugin"
+  ],
   "scripts": {
     "build": "pnpm run clear && rollup -c",
-    "release": " pnpm -r --filter=./packages/** run release && pnpm run build && npm publish --access public && git push --follow-tags origin main",
-    "release:shared": "pnpm run clear && pnpm -r --filter=./packages/shared run release && rollup -c && npm publish ./packages/shared/dist --access public && git push --follow-tags origin main",
-    "release:vite-plugin": "pnpm run clear && pnpm -r --filter=./packages/vite-plugin run release && rollup -c && npm publish ./packages/vite-plugin/dist --access public && git push --follow-tags origin main",
-    "release:webpack-plugin": "pnpm run clear && pnpm -r --filter=./packages/webpack-plugin run release && rollup -c && npm publish ./packages/webpack-plugin/dist --access public && git push --follow-tags origin main",
+    "release": "pnpm run clear && pnpm run release --workspaces && release-it",
     "clear": "pnpm -r --filter=./packages/** run clear"
   },
   "keywords": [
@@ -24,12 +26,24 @@
   ],
   "author": "Banana-energy",
   "license": "MIT",
+  "release-it": {
+    "plugins": {
+      "release-it-pnpm": {}
+    },
+    "git": {
+      "requireCleanWorkingDir": false,
+      "commitMessage": "chore: release ${version}",
+      "tagName": "v${version}"
+    }
+  },
   "devDependencies": {
     "@eslint/js": "^9.11.1",
     "@types/node": "^22.7.2",
     "eslint": "^8.57.1",
     "eslint-plugin-import-x": "^4.3.1",
     "globals": "^15.9.0",
+    "release-it": "^17.7.0",
+    "release-it-pnpm": "^4.6.3",
     "rimraf": "^6.0.1",
     "rollup": "^4.22.5",
     "rollup-plugin-ts": "^3.4.5",
