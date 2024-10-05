@@ -1,6 +1,6 @@
 {
   "name": "@karpo/webpack-plugin",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "webpack-plugin-i18n-transformer",
   "main": "dist/index.cjs",
   "module": "dist/index.js",
@@ -9,8 +9,15 @@
   ],
   "author": "Banana-energy",
   "license": "MIT",
+  "scripts": {
+    "release": "standard-version",
+    "clear": "rimraf dist"
+  },
   "dependencies": {
     "@karpo/shared": "workspace:^",
     "webpack": "^5.95.0"
+  },
+  "devDependencies": {
+    "standard-version": "^9.5.0"
   }
 }

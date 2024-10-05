@@ -1,6 +1,6 @@
 {
   "name": "@karpo/vite-plugin",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "vite-plugin-i18n-transformer",
   "main": "dist/index.cjs",
   "module": "dist/index.js",
@@ -9,7 +9,12 @@
   ],
   "author": "Banana-energy",
   "license": "MIT",
+  "scripts": {
+    "release": "standard-version",
+    "clear": "rimraf dist"
+  },
   "devDependencies": {
+    "standard-version": "^9.5.0",
     "vite": "^5.4.8"
   },
   "dependencies": {
