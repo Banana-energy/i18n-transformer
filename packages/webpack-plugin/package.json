@@ -30,7 +30,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@karpo/shared": "workspace:^",
+    "@karpo/shared": "0.0.0",
     "webpack": "^5.95.0"
   },
   "devDependencies": {
