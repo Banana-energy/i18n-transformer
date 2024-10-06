@@ -1,25 +1,17 @@
-import {
-  type GlobalSetting, type Options, init,
-} from '@kapo/shared';
+import type { OutputSetting, } from '@kapo/shared';
+import { generate, } from '@kapo/shared';
 import type { Compiler, } from 'webpack';
 
-class i18nTransformerPlugin {
-  setting: GlobalSetting;
-  isBuild?: boolean
+export class I18nTransformerPlugin {
+  options: OutputSetting;
 
-  constructor(options: Options,) {
-    const { setting, } = init(options,);
-    this.setting = setting
+  constructor(options: OutputSetting,) {
+    this.options = options
   }
 
   apply(compiler: Compiler,) {
-    compiler.hooks.compilation.tap('i18nTransformerPlugin', () => {
-      this.isBuild = process.argv.includes('build',) // 检查是否是构建
-    },)
-    compiler.hooks.emit.tap('i18nTransformerPlugin', (compilation,) => {
-      console.log(compilation.getAssets(),);
+    compiler.hooks.emit.tap('I18nTransformerPlugin', () => {
+      generate(this.options,)
     },)
   }
 }
-
-export default i18nTransformerPlugin

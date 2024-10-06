@@ -35,6 +35,6 @@
     "vite": "^5.4.8"
   },
   "dependencies": {
-    "@kapo/shared": "0.0.0"
+    "@kapo/shared": "workspace:*"
   }
 }

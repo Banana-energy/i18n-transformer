@@ -17,4 +17,21 @@ const packages = packageNames.map((packageName,) => ({
   plugins: [typescript(),],
 }),);
 
-export default packages
+export default packages.concat([
+  {
+    input: 'packages/webpack-plugin/loader.ts',
+    output: [
+      {
+        file: 'packages/webpack-plugin/dist/loader.js',
+        format: 'es',
+      },
+      {
+        file: 'packages/webpack-plugin/dist/loader.cjs',
+        format: 'cjs',
+      },
+    ],
+    plugins: [typescript(),],
+    external: ['path',],
+  },
+
+],)

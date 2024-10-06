@@ -1,9 +1,7 @@
-import {
-  type WordMap, getWordMap, setWordMap,
-} from '../generate/collectWords'
-import type { Node, } from '@babel/types'
+import {getWordMap, setWordMap, type WordMap,} from '../generate/collectWords'
+import type {Node,} from '@babel/types'
 import path from 'node:path'
-import { md5, } from './utils';
+import {md5,} from './utils';
 
 const rootPath = process.cwd()
 
@@ -13,9 +11,15 @@ export interface OutputSetting {
   langList: string[]
 }
 
+export enum Module {
+  COMMONJS = 'CommonJS',
+  ESNEXT = 'ESNext',
+}
+
 export interface DependencySetting {
   name: string
   path: string
+  modules?: Module
   preprocessing?: string
   objectPattern: boolean
 }

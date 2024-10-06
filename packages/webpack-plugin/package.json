@@ -30,7 +30,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@kapo/shared": "0.0.0",
+    "@kapo/shared": "workspace:*",
+    "@rollup/pluginutils": "^5.1.2",
     "webpack": "^5.95.0"
   },
   "devDependencies": {

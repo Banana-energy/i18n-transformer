@@ -1,14 +1,8 @@
-import { parse, } from '@babel/parser'
-import traverse, {
-  type NodePath, type TraverseOptions,
-} from '@babel/traverse'
+import {parse,} from '@babel/parser'
+import traverse, {type NodePath, type TraverseOptions,} from '@babel/traverse'
 import generator from '@babel/generator'
-import {
-  localeWordPattern, transCode, transformTemplate,
-} from './transform'
-import {
-  type GlobalSetting, setConfig,
-} from '../common/collect'
+import {localeWordPattern, transCode, transformTemplate,} from './transform'
+import {type GlobalSetting, Module, setConfig,} from '../common/collect'
 import type {
   ArgumentPlaceholder,
   Expression,
@@ -23,7 +17,7 @@ import type {
   TemplateLiteral,
   V8IntrinsicIdentifier,
 } from '@babel/types'
-import type { WordMap, } from '../generate/collectWords';
+import type {WordMap,} from '../generate/collectWords';
 
 type WithCallee = Extract<Node, { callee: Expression | Super | V8IntrinsicIdentifier; }>;
 type WithName = Extract<V8IntrinsicIdentifier | Expression | PrivateName, { name: string }>
@@ -107,9 +101,9 @@ function matchVueFileSpecialRule(path: NodePath<StringLiteral>, id: string,) {
 }
 
 export function transform({
-  id, code,
-}: { id: string; code: string }, options: GlobalSetting,) {
-  const collection = []
+                            id, code,
+                          }: { id: string; code: string }, options: GlobalSetting,) {
+  const collection: Record<string, string>[] = []
   let loadedDependency = false
   const {
     i18nCallee = '',
@@ -245,11 +239,12 @@ export function transform({
   if (dependency && hasLang && !loadedDependency) {
     // Add the import declaration
     const {
-      name, objectPattern,
+      name, objectPattern, modules
     } = dependency
-    const i18nImport = `import ${objectPattern ? '{' + name + '}' : name} from '${
-      dependency.path
-    }'`
+    const isCommonJS = modules === Module.COMMONJS
+    const i18nImport = isCommonJS ?
+      `const ${objectPattern ? '{' + name + '}' : name} = require('${dependency.path}');` :
+      `import ${objectPattern ? '{' + name + '}' : name} from '${dependency.path}'`
     const i18nImportAst = parse(i18nImport, {
       sourceType: 'module',
     },)
@@ -262,11 +257,15 @@ export function transform({
       preprocessingBody = preprocessingAst.program.body
     }
     ast.program.body = i18nImportAst.program.body.concat(ast.program.body,)
-    const firstNonImportIndex = ast.program.body.findIndex(
-      (item,) => item.type !== 'ImportDeclaration',
-    )
-    if (firstNonImportIndex !== -1) {
-      ast.program.body.splice(firstNonImportIndex, 0, ...preprocessingBody,)
+    if (isCommonJS) {
+      ast.program.body.splice(1, 0, ...preprocessingBody,)
+    } else {
+      const firstNonImportIndex = ast.program.body.findIndex(
+        (item,) => item.type !== 'ImportDeclaration',
+      )
+      if (firstNonImportIndex !== -1) {
+        ast.program.body.splice(firstNonImportIndex, 0, ...preprocessingBody,)
+      }
     }
   }
 
