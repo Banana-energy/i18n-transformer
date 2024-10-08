@@ -1,14 +1,8 @@
-import { parse, } from '@babel/parser'
-import babelTraverse, {
-  type NodePath, type TraverseOptions,
-} from '@babel/traverse'
-import generator from '@babel/generator'
-import {
-  localeWordPattern, transCode, transformTemplate,
-} from './transform'
-import {
-  type GlobalSetting, Module, setConfig,
-} from '../common/collect'
+import {parse,} from '@babel/parser'
+import babelTraverse, {type NodePath, type TraverseOptions,} from '@babel/traverse'
+import babelGenerator from '@babel/generator'
+import {localeWordPattern, transCode, transformTemplate,} from './transform'
+import {type GlobalSetting, Module, setConfig,} from '../common/collect'
 import type {
   ArgumentPlaceholder,
   Expression,
@@ -23,10 +17,14 @@ import type {
   TemplateLiteral,
   V8IntrinsicIdentifier,
 } from '@babel/types'
-import type { WordMap, } from '../generate/collectWords';
+import type {WordMap,} from '../generate/collectWords';
 
 interface BabelTraverse {
   default: typeof babelTraverse
+}
+
+interface BabelGenerator {
+  default: typeof babelGenerator
 }
 
 type WithCallee = Extract<Node, { callee: Expression | Super | V8IntrinsicIdentifier; }>;
@@ -111,8 +109,8 @@ function matchVueFileSpecialRule(path: NodePath<StringLiteral>, id: string,) {
 }
 
 export function transform({
-  id, code,
-}: {
+                            id, code,
+                          }: {
   id: string;
   code: string
 }, options: GlobalSetting,) {
@@ -283,6 +281,8 @@ export function transform({
       }
     }
   }
+
+  const generator = (babelGenerator as unknown as BabelGenerator).default || babelGenerator
 
   const {
     code: newCode, map,
