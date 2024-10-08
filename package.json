@@ -32,6 +32,7 @@
       "release-it-pnpm": {},
       "@release-it-plugins/workspaces": true
     },
+    "npm": false,
     "git": {
       "requireCleanWorkingDir": false,
       "commitMessage": "chore: release ${version}",
