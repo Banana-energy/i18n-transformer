@@ -1,6 +1,6 @@
 {
   "name": "@kapo/webpack-plugin-i18n-transformer",
-  "version": "0.0.1-beta.8",
+  "version": "0.0.1-beta.9",
   "description": "webpack-plugin-i18n-transformer",
   "main": "dist/loader.cjs",
   "module": "dist/loader.js",
