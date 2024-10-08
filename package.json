@@ -15,7 +15,7 @@
   ],
   "scripts": {
     "build": "pnpm run clear && rollup -c",
-    "release": "pnpm run build && release-it",
+    "release": "pnpm run build && release-it --ci",
     "clear": "pnpm -r --filter=./packages/** run clear",
     "lint": "eslint . -c ./eslint.config.mjs"
   },
