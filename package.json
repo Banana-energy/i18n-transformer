@@ -27,23 +27,6 @@
   ],
   "author": "Banana-energy",
   "license": "MIT",
-  "release-it": {
-    "plugins": {
-      "release-it-pnpm": {},
-      "@release-it-plugins/workspaces": true
-    },
-    "npm": {
-      "publish": false
-    },
-    "git": {
-      "requireCleanWorkingDir": false,
-      "commitMessage": "chore: release ${version}",
-      "tagName": "v${version}"
-    },
-    "github": {
-      "release": false
-    }
-  },
   "publishConfig": {
     "access": "public"
   },
