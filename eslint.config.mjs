@@ -2,25 +2,31 @@ import globals from 'globals';
 import pluginJs from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import importX from 'eslint-plugin-import-x'
+import stylistic from '@stylistic/eslint-plugin'
 
 export default [
   {
     ignores: ['dist/**',],
+    ...pluginJs.configs.recommended,
+  },
+  ...tseslint.configs.strict,
+  ...tseslint.configs.stylistic,
+  {
+    ignores: ['dist/**',],
     plugins: {
       'import-x': importX,
+      '@stylistic': stylistic,
     },
     files: ['**/*.{js,mjs,cjs,ts}',],
     languageOptions: {
       globals: globals.node,
     },
-  },
-  pluginJs.configs.recommended,
-  ...tseslint.configs.recommended,
-  {
     rules: {
       'sort-imports': ['error', {
         ignoreDeclarationSort: true,
       },],
+      '@typescript-eslint/no-non-null-assertion': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/consistent-type-imports': [
         'error',
         {
@@ -30,16 +36,16 @@ export default [
       ],
       // Enforce the use of top-level import type qualifier when an import only has specifiers with inline type qualifiers
       '@typescript-eslint/no-import-type-side-effects': 'error',
-      indent: ['error', 2, {
+      '@stylistic/indent': ['error', 2, {
         'SwitchCase': 1,
       },],
-      quotes: [2, 'single', {
+      '@stylistic/quotes': [2, 'single', {
         avoidEscape: true,
         allowTemplateLiterals: true,
       },],
       'quote-props': 'off',
       'no-shadow': ['error',],
-      'object-curly-newline': [
+      '@stylistic/object-curly-newline': [
         'error',
         {
           ObjectExpression: {
@@ -60,10 +66,14 @@ export default [
           },
         },
       ],
-      'comma-dangle': ['error', 'always',],
-      'object-curly-spacing': ['error', 'always',],
+      '@stylistic/comma-dangle': ['error', 'always',],
+      '@stylistic/object-curly-spacing': ['error', 'always',],
+      '@stylistic/object-property-newline': ['error', {
+        'allowAllPropertiesOnSameLine': false,
+      },],
       'space-before-function-paren': ['error', 'never',],
       'operator-linebreak': ['error', 'after',],
     },
   },
+
 ];

@@ -16,7 +16,8 @@ export function loader(this: LoaderContext<Options>, code: string,) {
     return code
   }
   const { code: newCode, } = transform({
-    id: resourcePath, code,
+    id: resourcePath,
+    code,
   }, options,)
 
   return newCode

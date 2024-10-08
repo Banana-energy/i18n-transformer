@@ -1,8 +1,14 @@
-import {parse,} from '@babel/parser'
-import traverse, {type NodePath, type TraverseOptions,} from '@babel/traverse'
+import { parse, } from '@babel/parser'
+import traverse, {
+  type NodePath, type TraverseOptions,
+} from '@babel/traverse'
 import generator from '@babel/generator'
-import {localeWordPattern, transCode, transformTemplate,} from './transform'
-import {type GlobalSetting, Module, setConfig,} from '../common/collect'
+import {
+  localeWordPattern, transCode, transformTemplate,
+} from './transform'
+import {
+  type GlobalSetting, Module, setConfig,
+} from '../common/collect'
 import type {
   ArgumentPlaceholder,
   Expression,
@@ -17,7 +23,7 @@ import type {
   TemplateLiteral,
   V8IntrinsicIdentifier,
 } from '@babel/types'
-import type {WordMap,} from '../generate/collectWords';
+import type { WordMap, } from '../generate/collectWords';
 
 type WithCallee = Extract<Node, { callee: Expression | Super | V8IntrinsicIdentifier; }>;
 type WithName = Extract<V8IntrinsicIdentifier | Expression | PrivateName, { name: string }>
@@ -101,8 +107,11 @@ function matchVueFileSpecialRule(path: NodePath<StringLiteral>, id: string,) {
 }
 
 export function transform({
-                            id, code,
-                          }: { id: string; code: string }, options: GlobalSetting,) {
+  id, code,
+}: {
+  id: string;
+  code: string
+}, options: GlobalSetting,) {
   const collection: Record<string, string>[] = []
   let loadedDependency = false
   const {
@@ -226,7 +235,8 @@ export function transform({
         return
       }
       transformTemplate({
-        path, callee: i18nCallee,
+        path,
+        callee: i18nCallee,
       }, options,)
     },
   }
@@ -239,7 +249,7 @@ export function transform({
   if (dependency && hasLang && !loadedDependency) {
     // Add the import declaration
     const {
-      name, objectPattern, modules
+      name, objectPattern, modules,
     } = dependency
     const isCommonJS = modules === Module.COMMONJS
     const i18nImport = isCommonJS ?
@@ -280,6 +290,7 @@ export function transform({
   )
 
   return {
-    code: newCode, map,
+    code: newCode,
+    map,
   }
 }

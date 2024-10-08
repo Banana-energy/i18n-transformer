@@ -27,13 +27,12 @@ import type { WordMap, } from '../generate/collectWords';
 
 // const localeWordPattern = /(\S.*)*[\u4e00-\u9fa5]+(.*\S)*/g
 
-type TransformOptions =
-  {
-    path: NodePath<StringLiteral>,
-    originValue: string,
-    wordKeyMap: WordMap,
-    callee: string
-  }
+interface TransformOptions {
+  path: NodePath<StringLiteral>,
+  originValue: string,
+  wordKeyMap: WordMap,
+  callee: string
+}
 
 
 export const localeWordPattern = (word: string, options: GlobalSetting,): string[] | null => {
@@ -76,7 +75,9 @@ const createT = ({
   const wordByLines = originValue.split('\n',)
   wordByLines.forEach((wordLine,) => {
     const res = createSplitNode({
-      word: wordLine, wordKeyMap, callee,
+      word: wordLine,
+      wordKeyMap,
+      callee,
     }, options,)
     splits.push(...res as Exclude<typeof res[number], undefined>[],)
   },)
@@ -199,7 +200,10 @@ function transAssign(params: TransformOptions, options: GlobalSetting,) {
 
 export function transformTemplate({
   path, callee,
-}: { path: NodePath<TemplateLiteral>, callee: string }, options: GlobalSetting,) {
+}: {
+  path: NodePath<TemplateLiteral>,
+  callee: string
+}, options: GlobalSetting,) {
   let variableCount = 1
   const expressions = path.node.expressions
   const quasis = path.node.quasis

@@ -16,7 +16,8 @@
   "scripts": {
     "build": "pnpm run clear && rollup -c",
     "release": "pnpm run build && release-it",
-    "clear": "pnpm -r --filter=./packages/** run clear"
+    "clear": "pnpm -r --filter=./packages/** run clear",
+    "lint": "eslint . -c ./eslint.config.mjs"
   },
   "keywords": [
     "vite-plugin",
@@ -41,6 +42,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.11.1",
+    "@stylistic/eslint-plugin": "^2.9.0",
     "@types/node": "^22.7.2",
     "eslint": "^8.57.1",
     "eslint-plugin-import-x": "^4.3.1",
