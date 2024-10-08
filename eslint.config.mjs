@@ -6,13 +6,13 @@ import stylistic from '@stylistic/eslint-plugin'
 
 export default [
   {
-    ignores: ['dist/**',],
+    ignores: ['dist/**', 'packages/**/dist/**',],
     ...pluginJs.configs.recommended,
   },
   ...tseslint.configs.strict,
   ...tseslint.configs.stylistic,
   {
-    ignores: ['dist/**',],
+    ignores: ['dist/**', 'packages/**/dist/**',],
     plugins: {
       'import-x': importX,
       '@stylistic': stylistic,
@@ -75,5 +75,4 @@ export default [
       'operator-linebreak': ['error', 'after',],
     },
   },
-
 ];

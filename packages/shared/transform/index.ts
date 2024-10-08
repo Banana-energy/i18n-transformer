@@ -1,5 +1,5 @@
 import { parse, } from '@babel/parser'
-import traverse, {
+import babelTraverse, {
   type NodePath, type TraverseOptions,
 } from '@babel/traverse'
 import generator from '@babel/generator'
@@ -24,6 +24,10 @@ import type {
   V8IntrinsicIdentifier,
 } from '@babel/types'
 import type { WordMap, } from '../generate/collectWords';
+
+interface BabelTraverse {
+  default: typeof babelTraverse
+}
 
 type WithCallee = Extract<Node, { callee: Expression | Super | V8IntrinsicIdentifier; }>;
 type WithName = Extract<V8IntrinsicIdentifier | Expression | PrivateName, { name: string }>
@@ -240,6 +244,7 @@ export function transform({
       }, options,)
     },
   }
+  const traverse = (babelTraverse as unknown as BabelTraverse).default || babelTraverse
   traverse(ast, visitor,)
 
   // Whether to collect the language to be internationalized
