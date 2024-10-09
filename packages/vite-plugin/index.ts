@@ -2,8 +2,10 @@ import {
   type Plugin, createFilter,
 } from 'vite'
 import {
-  type Options, generate, init, transform,
+  type Options, generate, ignoreAutoI18n, init, transform,
 } from '@kapo/shared'
+
+export { ignoreAutoI18n, }
 
 export default (options: Options = {},): Plugin => {
   const { setting, } = init(options,)

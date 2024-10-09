@@ -1,9 +1,11 @@
 import {
-  type Options, init, transform,
+  type Options, ignoreAutoI18n, init, transform,
 } from '@kapo/shared';
 import { getOptions, } from './utils'
 import type { LoaderContext, } from 'webpack';
 import { createFilter, } from '@rollup/pluginutils';
+
+export { ignoreAutoI18n, }
 
 export default function loader(this: LoaderContext<Options>, code: string,) {
   const { resourcePath, } = this
