@@ -1,8 +1,8 @@
-# vite-plugin-i18n-transformer
+# i18n-transformer
 
-An automatic i18n conversion Vite plugin.
+An automatic i18n conversion Vite/Webpack plugin/loader.
 
-一个自动转换代码中的中文为i18n翻译函数的 Vite 插件。
+一个自动转换代码中的中文为i18n翻译函数的 Vite/Webpack 插件/loader。
 
 ## Usage
 
