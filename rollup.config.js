@@ -17,21 +17,23 @@ const packages = packageNames.reduce((pkg, packageName,) => {
     external: ['path',],
     plugins: [typescript(),],
   },)
-  pkg.push({
-    input: `packages/${packageName}/utils.ts`,
-    output: [
-      {
-        file: `./packages/${packageName}/dist/utils.cjs`,
-        format: 'cjs',
-      },
-      {
-        file: `./packages/${packageName}/dist/utils.js`,
-        format: 'es',
-      },
-    ],
-    external: ['path',],
-    plugins: [typescript(),],
-  },)
+  if (packageName !== 'shared') {
+    pkg.push({
+      input: `packages/${packageName}/utils.ts`,
+      output: [
+        {
+          file: `./packages/${packageName}/dist/utils.cjs`,
+          format: 'cjs',
+        },
+        {
+          file: `./packages/${packageName}/dist/utils.js`,
+          format: 'es',
+        },
+      ],
+      external: ['path',],
+      plugins: [typescript(),],
+    },)
+  }
   return pkg
 }, [],);
 
