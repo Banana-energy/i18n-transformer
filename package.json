@@ -15,8 +15,9 @@
   ],
   "scripts": {
     "build": "pnpm run clear && rollup -c",
-    "release": "pnpm run build && release-it --ci",
-    "release:private": "pnpm run build && release-it --ci --private",
+    "publish": "node build/index.js --offical",
+    "publish:private": "node build/index.js --private",
+    "release": "pnpm run build && release-it --only-version",
     "clear": "pnpm -r --filter=./packages/** run clear",
     "lint": "eslint . -c ./eslint.config.mjs"
   },

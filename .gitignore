@@ -6,8 +6,4 @@ dist-ssr
 /dist*
 *-lock.*
 pnpm-debug
-build
-src/auto-import.d.ts
 .idea
-public/version.json
-src/components.d.ts
