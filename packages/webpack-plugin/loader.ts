@@ -5,10 +5,6 @@ import { getOptions, } from './utils'
 import type { LoaderContext, } from 'webpack';
 import { createFilter, } from '@rollup/pluginutils';
 
-export function ignoreAutoI18n<T, >(val: T,): T {
-  return val
-}
-
 export default function loader(this: LoaderContext<Options>, code: string,) {
   const { resourcePath, } = this
   const { setting: options, } = init(getOptions(this,) || {},)

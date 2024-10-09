@@ -80,3 +80,7 @@ export function getOptions(loaderContext: LoaderContext<Options>,): Options {
 
   return query
 }
+
+export function ignoreAutoI18n<T, >(val: T,): T {
+  return val
+}

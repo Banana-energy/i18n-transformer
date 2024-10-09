@@ -5,10 +5,6 @@ import {
   type Options, generate, init, transform,
 } from '@kapo/shared'
 
-export function ignoreAutoI18n<T, >(val: T,): T {
-  return val
-}
-
 export default (options: Options = {},): Plugin => {
   const { setting, } = init(options,)
   let isBuild = false
