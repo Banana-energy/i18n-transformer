@@ -6,8 +6,6 @@ An automatic i18n conversion Vite/Webpack plugin/loader.
 
 ## Usage
 
-npm包已发布至公司[npm私服](https://packages.aliyun.com/npm/npm-registry/guide)，配置好私服后即可通过npm安装。
-
 ### Vite
 
 ```shell
