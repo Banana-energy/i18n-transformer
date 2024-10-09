@@ -2,8 +2,9 @@ import {
   type Plugin, createFilter,
 } from 'vite'
 import {
-  type Options, generate, ignoreAutoI18n, init, transform,
+  type Options, generate, init, transform,
 } from '@kapo/shared'
+import { ignoreAutoI18n, } from '@kapo/shared/common/utils'
 
 export { ignoreAutoI18n, }
 

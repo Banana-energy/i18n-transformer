@@ -1,9 +1,10 @@
 import {
-  type Options, ignoreAutoI18n, init, transform,
+  type Options, init, transform,
 } from '@kapo/shared';
 import { getOptions, } from './utils'
 import type { LoaderContext, } from 'webpack';
 import { createFilter, } from '@rollup/pluginutils';
+import { ignoreAutoI18n, } from '@kapo/shared/common/utils'
 
 export { ignoreAutoI18n, }
 
