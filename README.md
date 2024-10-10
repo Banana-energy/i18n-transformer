@@ -27,23 +27,23 @@ export default defineConfig({
         VueJsx(),
         // 需要放在Vue和VueJsx插件之后
         I18nTransformer({
-            include: ['**.js', '**.vue'],                        // 针对什么文件进行国际化
-            exclude: [                                           // 项目内不需要国际化的文件或文件夹
+            include: ['**.js', '**.vue'],                           // 针对什么文件进行国际化
+            exclude: [                                              // 项目内不需要国际化的文件或文件夹
                 'src/locales/**',
                 'node_modules/**',
                 'src/store/modules/locale.ts'
             ],
-            i18nCallee: 'useI18n().t',                           // 调用国际化函数
-            dependency: {                                        // 国际化函数依赖引入配置
-                name: 'useI18n',                                 // 国际化函数依赖的名称
-                value: '@/hooks/web/useI18n',                    // 引入国际化函数的路径
-                objectPattern: true,                             // 引入的国际化函数依赖的形式。true为解构形式：import { name } from 'xxx'
-                preprocessing: 'const {t} = use18n()'            // 这行代码将添加至import依赖之后，可以用来做一些处理
+            i18nCallee: 'useI18n().t',                              // 调用国际化函数
+            dependency: {                                           // 国际化函数依赖引入配置
+                name: 'useI18n',                                    // 国际化函数依赖的名称
+                value: '@/hooks/web/useI18n',                       // 引入国际化函数的路径
+                objectPattern: true,                                // 引入的国际化函数依赖的形式。true为解构形式：import { name } from 'xxx'
+                preprocessing: 'const {t} = use18n()'               // 这行代码将添加至import依赖之后，可以用来做一些处理
             },
             output: {
-                filename: 'zh-CN.json',                          // 生成中文配置的文件名
-                langList: ['en-US.json'],                        // 生成其他语言配置的文件名列表
-                path: path.resolve(process.cwd(), './lang'),     // 生成文件的路径
+                filename: 'zh-CN.json',                             // 生成中文配置的文件名
+                langList: ['en-US.json'],                           // 生成其他语言配置的文件名列表
+                path: path.resolve(process.cwd(), './public/lang'), // 生成文件的路径
             }
         }),
     ],
