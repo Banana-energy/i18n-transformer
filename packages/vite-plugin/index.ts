@@ -19,6 +19,7 @@ export default (options: Options = {},): Plugin => {
       if (!filter(id,)) {
         return {
           code,
+          map: null,
         }
       }
       const {
