@@ -1,6 +1,6 @@
 {
   "name": "@kapo/shared",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "i18n utils",
   "main": "dist/index.cjs",
   "module": "dist/index.js",
