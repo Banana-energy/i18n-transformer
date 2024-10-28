@@ -1,6 +1,6 @@
 {
   "name": "@kapo/i18n-transformer",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "description": "An automatic i18n conversion Vite/Webpack plugin.",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -40,7 +40,7 @@
     "eslint": "^8.57.1",
     "eslint-plugin-import-x": "^4.3.1",
     "globals": "^15.9.0",
-    "release-it": "^17.7.0",
+    "release-it": "^17.10.0",
     "release-it-pnpm": "^4.6.3",
     "rimraf": "^6.0.1",
     "rollup": "^4.22.5",
