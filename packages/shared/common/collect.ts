@@ -39,17 +39,17 @@ export interface GlobalSetting {
 export type Options = Partial<GlobalSetting>
 
 const defaultKeyRule = (value: string, node: Node, exist: WordMap,) => {
-  let key = md5(value,)
-  let index = 1
+  const key = md5(value,)
+  // let index = 1
   const generateKey = () => {
-    while (exist[key]) {
-      if (key.includes('-',)) {
-        key = key.replace(/-\d+$/, `-${index}`,)
-      } else {
-        key = `${key}-${index}`
-      }
-      index++
-    }
+    // while (exist[key]) {
+    //   if (key.includes('-',)) {
+    //     key = key.replace(/-\d+$/, `-${index}`,)
+    //   } else {
+    //     key = `${key}-${index}`
+    //   }
+    //   index++
+    // }
     return key
   }
   return generateKey()
