@@ -38,7 +38,7 @@ export interface GlobalSetting {
 
 export type Options = Partial<GlobalSetting>
 
-const defaultKeyRule = (value: string, _node: Node, _exist: WordMap,) => {
+const defaultKeyRule = (value: string,) => {
   const key = md5(value,)
   // let index = 1
   const generateKey = () => {
