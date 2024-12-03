@@ -1,13 +1,11 @@
-import {
-  type Options, init, transform,
-} from '@kapo/shared';
-import { getOptions, } from './utils'
-import type { LoaderContext, } from 'webpack';
-import { createFilter, } from '@rollup/pluginutils';
+import {init, type Options, transform,} from '@kapo/shared';
+import {getOptions,} from './utils'
+import type {LoaderContext,} from 'webpack';
+import {createFilter,} from '@rollup/pluginutils';
 
-export function i18nTransformerLoader(this: LoaderContext<Options>, code: string,) {
-  const { resourcePath, } = this
-  const { setting: options, } = init(getOptions(this,) || {},)
+export default function i18nTransformerLoader(this: LoaderContext<Options>, code: string,) {
+  const {resourcePath,} = this
+  const {setting: options,} = init(getOptions(this,) || {},)
   const {
     include = [],
     exclude = [],
@@ -15,7 +13,7 @@ export function i18nTransformerLoader(this: LoaderContext<Options>, code: string
   if (!createFilter(include, exclude,)(resourcePath,)) {
     return code
   }
-  const { code: newCode, } = transform({
+  const {code: newCode,} = transform({
     id: resourcePath,
     code,
   }, options,)
