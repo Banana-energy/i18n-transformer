@@ -1,9 +1,9 @@
 {
   "name": "@kapo/webpack-plugin-i18n-transformer",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "webpack-plugin-i18n-transformer",
-  "main": "dist/loader.cjs",
-  "module": "dist/loader.js",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
   "files": [
     "dist"
   ],

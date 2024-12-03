@@ -1,8 +1,14 @@
-import {parse,} from '@babel/parser'
-import babelTraverse, {type NodePath, type TraverseOptions,} from '@babel/traverse'
+import { parse, } from '@babel/parser'
+import babelTraverse, {
+  type NodePath, type TraverseOptions,
+} from '@babel/traverse'
 import babelGenerator from '@babel/generator'
-import {localeWordPattern, transCode, transformTemplate,} from './transform'
-import {type GlobalSetting, Module, setConfig,} from '../common/collect'
+import {
+  localeWordPattern, transCode, transformTemplate,
+} from './transform'
+import {
+  type GlobalSetting, Module, setConfig,
+} from '../common/collect'
 import type {
   ArgumentPlaceholder,
   Expression,
@@ -17,7 +23,7 @@ import type {
   TemplateLiteral,
   V8IntrinsicIdentifier,
 } from '@babel/types'
-import type {WordMap,} from '../generate/collectWords';
+import type { WordMap, } from '../generate/collectWords';
 
 interface BabelTraverse {
   default: typeof babelTraverse
@@ -109,8 +115,8 @@ function matchVueFileSpecialRule(path: NodePath<StringLiteral>, id: string,) {
 }
 
 export function transform({
-                            id, code,
-                          }: {
+  id, code,
+}: {
   id: string;
   code: string
 }, options: GlobalSetting,) {
