@@ -1,8 +1,9 @@
 import type { OutputSetting, } from '@kapo/shared';
 import { generate, } from '@kapo/shared';
 import type { Compiler, } from 'webpack';
+import { i18nTransformerLoader, } from './loader'
 
-export class I18nTransformerPlugin {
+class I18nTransformerPlugin {
   options: OutputSetting;
 
   constructor(options: OutputSetting,) {
@@ -14,4 +15,9 @@ export class I18nTransformerPlugin {
       generate(this.options,)
     },)
   }
+}
+
+export {
+  i18nTransformerLoader,
+  I18nTransformerPlugin,
 }
