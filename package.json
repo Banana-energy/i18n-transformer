@@ -1,6 +1,6 @@
 {
   "name": "@kapo/i18n-transformer",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "An automatic i18n conversion Vite/Webpack plugin.",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -15,7 +15,7 @@
   ],
   "scripts": {
     "build": "pnpm run clear && rollup -c",
-    "publish": "node build/index.js --official",
+    "publish:official": "node build/index.js --official",
     "publish:private": "node build/index.js --private",
     "release": "pnpm run build && release-it --only-version",
     "clear": "pnpm -r --filter=./packages/** run clear",
