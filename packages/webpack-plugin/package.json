@@ -30,11 +30,11 @@
   },
   "dependencies": {
     "@kapo/shared": "workspace:*",
-    "@rollup/pluginutils": "^5.1.2",
-    "webpack": "^5.95.0"
+    "@rollup/pluginutils": "^5.1.2"
   },
   "devDependencies": {
     "@release-it/bumper": "^6.0.1",
-    "release-it": "^17.7.0"
+    "release-it": "^17.7.0",
+    "webpack": "^5.95.0"
   }
 }

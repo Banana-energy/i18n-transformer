@@ -1,6 +1,6 @@
-import type {OutputSetting,} from '@kapo/shared';
-import {generate,} from '@kapo/shared';
-import type {Compiler,} from 'webpack';
+import type { OutputSetting, } from '@kapo/shared';
+import { generate, } from '@kapo/shared';
+import type { Compiler, } from 'webpack';
 import i18nTransformerLoader from './loader'
 
 class I18nTransformerPlugin {
@@ -17,8 +17,6 @@ class I18nTransformerPlugin {
   }
 }
 
-export {
-  I18nTransformerPlugin,
-}
+export { I18nTransformerPlugin, }
 
 export default i18nTransformerLoader
