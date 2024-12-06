@@ -12,7 +12,7 @@ on AST.
 ### Vite
 
 ```shell
-pnpm i -D @kapo/vite-plugin-i18n-transformer
+  pnpm i -D @kapo/vite-plugin-i18n-transformer
 ```
 
 ```js
@@ -54,6 +54,10 @@ export default defineConfig({
 
 ### Webpack
 
+```shell
+  npm i -D @kapo/webpack-plugin-i18n-transformer
+```
+
 Webpack由于vue-loader版本不同，需要分版本处理。
 
 以下是 `vue-loader15.x` 示例
@@ -66,7 +70,7 @@ module.exports = {
     chainWebpack: (config) => {
         const i18nOptions = {
             include: ['**.js', '**.jsx', '**.vue'],
-            exclude: ['src/lang/**', 'node_modules/**', 'src/components/LangSelect', 'src/main.js', 'src/styles/**'],
+            exclude: ['src/lang/**', 'node_modules/**', 'src/main.js',],
             i18nCallee: 'i18n.default.t',
             dependency: {
                 name: 'i18n',
