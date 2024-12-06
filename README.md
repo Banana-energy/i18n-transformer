@@ -1,8 +1,11 @@
 # i18n-transformer
 
-An automatic i18n conversion Vite/Webpack plugin/loader.
+A Vite/Webpack plugin/loader that automatically transforms Chinese text in JS code into i18n translation functions based
+on AST.
 
-一个自动转换代码中的中文为i18n翻译函数的 Vite/Webpack 插件/loader。
+一个基于AST自动转换JS代码中的中文为i18n翻译函数的 Vite/Webpack 插件/loader。
+
+理论上支持任何JS框架，目前只测试了Vue2/3。
 
 ## Usage
 
@@ -13,6 +16,7 @@ pnpm i -D @kapo/vite-plugin-i18n-transformer
 ```
 
 ```js
+// vite.config.ts
 import Vue from "@vitejs/plugin-vue";
 import VueJsx from "@vitejs/plugin-vue-jsx";
 import I18nTransformer from "vite-plugin-i18n-transformer";
@@ -51,6 +55,52 @@ export default defineConfig({
 ### Webpack
 
 Webpack由于vue-loader版本不同，需要分版本处理。
+
+以下是 `vue-loader15.x` 示例
+
+```js
+// vue.config.js
+const {I18nTransformerPlugin} = require('@kapo/webpack-plugin-i18n-transformer')
+module.exports = {
+    ...,
+    chainWebpack: (config) => {
+        const i18nOptions = {
+            include: ['**.js', '**.jsx', '**.vue'],
+            exclude: ['src/lang/**', 'node_modules/**', 'src/components/LangSelect', 'src/main.js', 'src/styles/**'],
+            i18nCallee: 'i18n.default.t',
+            dependency: {
+                name: 'i18n',
+                path: '@/lang',
+                modules: 'CommonJS',
+            },
+        }
+
+        config.module
+            .rule('js')
+            .use('i18n-loader')
+            .loader('@kapo/webpack-plugin-i18n-transformer')
+            .options(i18nOptions)
+            .before('babel-loader')
+            .end()
+            .end()
+            .rule('vueTemplateRender')
+            .test(/\.vue$/)
+            .resourceQuery(/type=template/)
+            .enforce('post')
+            .use('i18n-loader')
+            .loader('@kapo/webpack-plugin-i18n-transformer')
+            .options(i18nOptions)
+    }
+}
+```
+
+### Special
+
+对于项目中可能存在并不想被翻译的项，在 vite/webpack 包中提供了 `ignoreAutoI18n` 函数，将不想翻译的条目使用该函数包裹起来即可。
+
+为什么不采用类似 // eslint-disabled-next-line 形式？
+
+https://github.com/vuejs/core/issues/12114
 
 ## Example
 
