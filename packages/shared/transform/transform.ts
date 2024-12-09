@@ -25,8 +25,6 @@ import {
 import type { NodePath, } from '@babel/traverse';
 import type { WordMap, } from '../generate/collectWords';
 
-// const localeWordPattern = /(\S.*)*[\u4e00-\u9fa5]+(.*\S)*/g
-
 interface TransformOptions {
   path: NodePath<StringLiteral>,
   originValue: string,

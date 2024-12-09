@@ -1,7 +1,7 @@
-import { resolve, } from 'node:path';
+import { resolve, } from 'path';
 import {
   existsSync, mkdirSync, readFileSync, writeFileSync,
-} from 'node:fs';
+} from 'fs';
 import { getWordMap, } from './collectWords';
 import type { OutputSetting, } from '../common/collect';
 

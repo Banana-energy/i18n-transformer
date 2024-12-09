@@ -2,7 +2,7 @@ import {
   type WordMap, getWordMap, setWordMap,
 } from '../generate/collectWords'
 import type { Node, } from '@babel/types'
-import path from 'node:path'
+import path from 'path'
 import { md5, } from './utils';
 
 const rootPath = process.cwd()
