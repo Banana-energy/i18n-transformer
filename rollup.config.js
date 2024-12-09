@@ -1,6 +1,13 @@
 import typescript from 'rollup-plugin-ts'
 import { babel, } from '@rollup/plugin-babel'
 
+const commonOptions = {
+  external: ['path',],
+  plugins: [typescript(), babel({
+    extensions: ['.ts',],
+  },),],
+}
+
 const packageNames = ['shared', 'vite-plugin', 'webpack-plugin',];
 const packages = packageNames.reduce((pkg, packageName,) => {
   pkg.push({
@@ -15,8 +22,7 @@ const packages = packageNames.reduce((pkg, packageName,) => {
         format: 'es',
       },
     ],
-    external: ['path',],
-    plugins: [typescript(),],
+    ...commonOptions,
   },)
   if (packageName !== 'shared') {
     pkg.push({
@@ -31,13 +37,7 @@ const packages = packageNames.reduce((pkg, packageName,) => {
           format: 'es',
         },
       ],
-      plugins: [
-        typescript(),
-        babel({
-          extensions: ['.ts',],
-        },),
-      ],
-      external: ['path',],
+      ...commonOptions,
     },)
   }
   return pkg
@@ -56,12 +56,6 @@ export default packages.concat([
         format: 'cjs',
       },
     ],
-    plugins: [
-      typescript(),
-      babel({
-        extensions: ['.ts',],
-      },),
-    ],
-    external: ['path',],
+    ...commonOptions,
   },
 ],)
