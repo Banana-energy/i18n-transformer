@@ -1,8 +1,14 @@
-import {parse,} from '@babel/parser'
-import babelTraverse, {type NodePath, type TraverseOptions,} from '@babel/traverse'
+import { parse, } from '@babel/parser'
+import babelTraverse, {
+  type NodePath, type TraverseOptions,
+} from '@babel/traverse'
 import babelGenerator from '@babel/generator'
-import {localeWordPattern, transCode, transformTemplate,} from './transform'
-import {type GlobalSetting, Module, setConfig,} from '../common/collect'
+import {
+  localeWordPattern, transCode, transformTemplate,
+} from './transform'
+import {
+  type GlobalSetting, Module, setConfig,
+} from '../common/collect'
 import type {
   ArgumentPlaceholder,
   Expression,
@@ -17,7 +23,7 @@ import type {
   TemplateLiteral,
   V8IntrinsicIdentifier,
 } from '@babel/types'
-import type {WordMap,} from '../generate/collectWords';
+import type { WordMap, } from '../generate/collectWords';
 
 interface BabelTraverse {
   default: typeof babelTraverse
@@ -60,13 +66,13 @@ function isInConsole(path: NodePath<StringLiteral> | NodePath<TemplateLiteral>,)
   return false
 }
 
-function findCommentExclude(path: NodePath): boolean {
-  const parent = getParent(path);
+function findCommentExclude(path: NodePath,): boolean {
+  const parent = getParent(path,);
   if (!parent || parent.type !== 'CallExpression') {
     return false;
   }
 
-  const {callee} = parent;
+  const { callee, } = parent;
 
   // 判断是否直接调用 ignoreAutoI18n
   const isDirectIgnoreCall =
@@ -79,7 +85,7 @@ function findCommentExclude(path: NodePath): boolean {
     callee.property.name === 'ignoreAutoI18n';
 
   // 判断是否是 SequenceExpression 中的最后一项
-  function isSequenceIgnoreCall(callee: V8IntrinsicIdentifier | Expression): boolean {
+  function isSequenceIgnoreCall(): boolean {
 
     if (callee.type === 'SequenceExpression' && callee.expressions.length > 0) {
       const length = callee.expressions.length;
@@ -92,7 +98,7 @@ function findCommentExclude(path: NodePath): boolean {
     return false;
   }
 
-  return isDirectIgnoreCall || isMemberIgnoreCall || isSequenceIgnoreCall(callee);
+  return isDirectIgnoreCall || isMemberIgnoreCall || isSequenceIgnoreCall();
 }
 
 
@@ -131,8 +137,8 @@ function matchVueFileSpecialRule(path: NodePath<StringLiteral>, id: string,) {
 }
 
 export function transform({
-                            id, code,
-                          }: {
+  id, code,
+}: {
   id: string;
   code: string
 }, options: GlobalSetting,) {
