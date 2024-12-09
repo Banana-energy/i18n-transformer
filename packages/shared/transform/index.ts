@@ -80,8 +80,10 @@ function findCommentExclude(path: NodePath): boolean {
 
   // 判断是否是 SequenceExpression 中的最后一项
   function isSequenceIgnoreCall(callee: V8IntrinsicIdentifier | Expression): boolean {
+
     if (callee.type === 'SequenceExpression' && callee.expressions.length > 0) {
-      const lastExpression = callee.expressions.at(-1);
+      const length = callee.expressions.length;
+      const lastExpression = callee.expressions[length - 1];
 
       if (lastExpression && lastExpression.type === 'MemberExpression' && 'name' in lastExpression.property) {
         return lastExpression.property.name === 'ignoreAutoI18n';
