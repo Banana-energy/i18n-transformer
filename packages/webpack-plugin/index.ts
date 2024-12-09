@@ -2,6 +2,7 @@ import type { OutputSetting, } from '@kapo/shared';
 import { generate, } from '@kapo/shared';
 import type { Compiler, } from 'webpack';
 import i18nTransformerLoader from './loader'
+import { ignoreAutoI18n, } from './utils'
 
 class I18nTransformerPlugin {
   options: OutputSetting;
@@ -17,6 +18,9 @@ class I18nTransformerPlugin {
   }
 }
 
-export { I18nTransformerPlugin, }
+export {
+  ignoreAutoI18n,
+  I18nTransformerPlugin,
+}
 
 export default i18nTransformerLoader

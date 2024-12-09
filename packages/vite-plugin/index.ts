@@ -4,6 +4,7 @@ import {
 import {
   type Options, generate, init, transform,
 } from '@kapo/shared'
+import { ignoreAutoI18n, } from './utils'
 
 export default (options: Options = {},): Plugin => {
   const { setting, } = init(options,)
@@ -44,3 +45,5 @@ export default (options: Options = {},): Plugin => {
     },
   }
 }
+
+export { ignoreAutoI18n, }

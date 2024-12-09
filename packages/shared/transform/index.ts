@@ -1,14 +1,8 @@
-import { parse, } from '@babel/parser'
-import babelTraverse, {
-  type NodePath, type TraverseOptions,
-} from '@babel/traverse'
+import {parse,} from '@babel/parser'
+import babelTraverse, {type NodePath, type TraverseOptions,} from '@babel/traverse'
 import babelGenerator from '@babel/generator'
-import {
-  localeWordPattern, transCode, transformTemplate,
-} from './transform'
-import {
-  type GlobalSetting, Module, setConfig,
-} from '../common/collect'
+import {localeWordPattern, transCode, transformTemplate,} from './transform'
+import {type GlobalSetting, Module, setConfig,} from '../common/collect'
 import type {
   ArgumentPlaceholder,
   Expression,
@@ -23,7 +17,7 @@ import type {
   TemplateLiteral,
   V8IntrinsicIdentifier,
 } from '@babel/types'
-import type { WordMap, } from '../generate/collectWords';
+import type {WordMap,} from '../generate/collectWords';
 
 interface BabelTraverse {
   default: typeof babelTraverse
@@ -66,19 +60,39 @@ function isInConsole(path: NodePath<StringLiteral> | NodePath<TemplateLiteral>,)
   return false
 }
 
-function findCommentExclude(path: NodePath,) {
-  const parent = getParent(path,)
-  if (!parent) {
-    return false
+function findCommentExclude(path: NodePath): boolean {
+  const parent = getParent(path);
+  if (!parent || parent.type !== 'CallExpression') {
+    return false;
   }
-  return (
-    (parent.type === 'CallExpression' && 'name' in parent.callee ? parent.callee.name === 'ignoreAutoI18n' : false) ||
-    // vue3的template中
-    (parent.type === 'CallExpression' &&
-    parent.callee.type === 'MemberExpression' &&
-    'name' in parent.callee.property ? parent.callee.property.name === 'ignoreAutoI18n' : false)
-  )
+
+  const {callee} = parent;
+
+  // 判断是否直接调用 ignoreAutoI18n
+  const isDirectIgnoreCall =
+    'name' in callee && callee.name === 'ignoreAutoI18n';
+
+  // 判断是否是 MemberExpression 的形式
+  const isMemberIgnoreCall =
+    callee.type === 'MemberExpression' &&
+    'name' in callee.property &&
+    callee.property.name === 'ignoreAutoI18n';
+
+  // 判断是否是 SequenceExpression 中的最后一项
+  function isSequenceIgnoreCall(callee: V8IntrinsicIdentifier | Expression): boolean {
+    if (callee.type === 'SequenceExpression' && callee.expressions.length > 0) {
+      const lastExpression = callee.expressions.at(-1);
+
+      if (lastExpression && lastExpression.type === 'MemberExpression' && 'name' in lastExpression.property) {
+        return lastExpression.property.name === 'ignoreAutoI18n';
+      }
+    }
+    return false;
+  }
+
+  return isDirectIgnoreCall || isMemberIgnoreCall || isSequenceIgnoreCall(callee);
 }
+
 
 function matchVueFileSpecialRule(path: NodePath<StringLiteral>, id: string,) {
   const pathParent = path.parent
@@ -115,8 +129,8 @@ function matchVueFileSpecialRule(path: NodePath<StringLiteral>, id: string,) {
 }
 
 export function transform({
-  id, code,
-}: {
+                            id, code,
+                          }: {
   id: string;
   code: string
 }, options: GlobalSetting,) {
