@@ -1,15 +1,16 @@
 import typescript from 'rollup-plugin-ts'
 import { babel, } from '@rollup/plugin-babel'
 
-const commonOptions = {
+const commonOptions = ({
   external: ['path', 'fs', 'crypto',],
   plugins: [
     typescript(),
     babel({
+      babelHelpers: 'bundled',
       extensions: ['.ts',],
     },),
   ],
-}
+})
 
 const packageNames = ['shared', 'vite-plugin', 'webpack-plugin',];
 const packages = packageNames.reduce((pkg, packageName,) => {
@@ -19,10 +20,12 @@ const packages = packageNames.reduce((pkg, packageName,) => {
       {
         file: `./packages/${packageName}/dist/index.cjs`,
         format: 'cjs',
+        exports: 'named',
       },
       {
         file: `./packages/${packageName}/dist/index.js`,
         format: 'es',
+        exports: 'named',
       },
     ],
     ...commonOptions,
@@ -34,10 +37,12 @@ const packages = packageNames.reduce((pkg, packageName,) => {
         {
           file: `./packages/${packageName}/dist/utils.cjs`,
           format: 'cjs',
+          exports: 'named',
         },
         {
           file: `./packages/${packageName}/dist/utils.js`,
           format: 'es',
+          exports: 'named',
         },
       ],
       ...commonOptions,
