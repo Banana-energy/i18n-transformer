@@ -1,8 +1,8 @@
-import type { OutputSetting, } from '@kapo/shared';
-import { generate, } from '@kapo/shared';
-import type { Compiler, } from 'webpack';
+import type {OutputSetting,} from '@kapo/shared';
+import {generate,} from '@kapo/shared';
+import type {Compiler,} from 'webpack';
 import i18nTransformerLoader from './loader'
-import { ignoreAutoI18n, } from './utils'
+import {ignoreAutoI18n,} from './utils'
 
 class I18nTransformerPlugin {
   options: OutputSetting;
@@ -12,7 +12,7 @@ class I18nTransformerPlugin {
   }
 
   apply(compiler: Compiler,) {
-    compiler.hooks.emit.tap('I18nTransformerPlugin', () => {
+    compiler.hooks.afterCompile.tap('I18nTransformerPlugin', () => {
       generate(this.options,)
     },)
   }
