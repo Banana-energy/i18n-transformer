@@ -1,4 +1,5 @@
 import {
+  AppType,
   generate,
   init,
   type Options,
@@ -49,6 +50,9 @@ export default (options: Options = {},): Plugin => {
     writeBundle() {
       if (!isBuild || !setting.upload) {
         return
+      }
+      if (!setting.upload.appType) {
+        setting.upload.appType = AppType.VUE3
       }
       upload(setting.upload, setting.output,)
     },

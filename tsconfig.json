@@ -1,7 +1,4 @@
 {
-  "include": [
-    "packages"
-  ],
   "compilerOptions": {
     "target": "ES2020",
     "module": "CommonJS",
@@ -21,5 +18,8 @@
     "esModuleInterop": true,
     "moduleResolution": "node",
     "baseUrl": "."
-  }
+  },
+  "include": [
+    "packages"
+  ]
 }

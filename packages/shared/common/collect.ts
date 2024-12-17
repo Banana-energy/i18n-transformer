@@ -1,4 +1,5 @@
 import type { Node, } from '@babel/types'
+import type { AppType, } from '../generate'
 import path from 'path'
 import * as process from 'process'
 import { getWordMap, setWordMap, type WordMap, } from '../generate/collectWords'
@@ -14,7 +15,7 @@ export interface OutputSetting {
 
 export interface UploadSetting {
   app: string
-  appType: string
+  appType: AppType
   uploadUrl: string
   localePath: string
   localeConfig: Record<string, string[]>
@@ -85,8 +86,7 @@ function initSetting(setting: Options,): GlobalSetting {
     if (setting[key as keyof GlobalSetting] !== undefined) {
       if (typeof defaultSetting[key as keyof GlobalSetting] === 'object') {
         Object.assign(defaultSetting[key as keyof GlobalSetting] as object, setting[key as keyof GlobalSetting],)
-      }
-      else {
+      } else {
         (defaultSetting[key as keyof GlobalSetting] as GlobalSetting[keyof GlobalSetting]) = setting[key as keyof GlobalSetting]
       }
     }

@@ -7,6 +7,7 @@ import {
 } from 'fs'
 import { resolve, } from 'path'
 import axios from 'axios'
+import chalk from 'chalk'
 import { getWordMap, } from './collectWords'
 
 type JSONValue = string | JSONObject
@@ -20,9 +21,14 @@ enum CodeSource {
   AUTOMATIC = 'FE_GENERATE_UPLOAD',
 }
 
+export enum AppType {
+  VUE3 = 'FE_VUE3',
+  VUE2 = 'FE_VUE2',
+}
+
 export interface UploadPayload {
   app: string
-  appType: string
+  appType: AppType
   codeSource: CodeSource
   langList: LangItem[]
 }
@@ -30,6 +36,34 @@ export interface UploadPayload {
 export interface LangItem {
   locale: string
   json: JSONObject
+}
+
+function formatTime() {
+  const now = new Date()
+  const pad = n => String(n,).padStart(2, '0',) // 补零函数
+  return `${now.getFullYear()}-${pad(now.getDate(),)}-${pad(now.getMonth() + 1,)} ${pad(now.getHours(),)}:${pad(now.getMinutes(),)}:${pad(now.getSeconds(),)}`
+}
+
+const log = {
+  levels: {
+    info: chalk.blue('INFO',),
+    warn: chalk.yellow('WARN',),
+    error: chalk.red('ERROR',),
+  },
+  log(level: string, message: string,) {
+    const time = formatTime()
+    const levelTag = this.levels[level] || 'LOG'
+    console.log(`\n${chalk.gray(time,)} [${levelTag}]: ${message}`,)
+  },
+  info(message: string,) {
+    this.log('info', message,)
+  },
+  warn(message: string,) {
+    this.log('warn', message,)
+  },
+  error(message: string,) {
+    this.log('error', message,)
+  },
 }
 
 export function generate(output: OutputSetting,): void {
@@ -79,8 +113,7 @@ function readJsonFile(filePath: string,): JSONObject {
   try {
     const content = readFileSync(filePath, 'utf-8',)
     return JSON.parse(content,)
-  }
-  catch (error) {
+  } catch (error) {
     throw new Error(`Failed to read or parse JSON file: ${filePath}. Error: ${error}`,)
   }
 }
@@ -178,14 +211,30 @@ export function upload(
 
   axios
     .post(config.uploadUrl, staticPayload,)
+    .then((response,) => {
+      if (response.data.success) {
+        log.info(`Upload successful.`,)
+      } else {
+        log.warn(`Upload failed, static files will be used instead.`,)
+        log.error(response.data.responseDesc,)
+      }
+    },)
     .catch((e,) => {
-      console.warn(`Upload failed, static files will be used instead.`,)
-      console.error(e,)
+      log.warn(`Upload failed, static files will be used instead.`,)
+      log.error(e,)
     },)
   axios
     .post(config.uploadUrl, automaticPayload,)
+    .then((response,) => {
+      if (response.data.success) {
+        log.info(`Upload successful.`,)
+      } else {
+        log.warn(`Upload failed, static files will be used instead.`,)
+        log.error(response.data.responseDesc,)
+      }
+    },)
     .catch((e,) => {
-      console.warn(`Upload failed, static files will be used instead.`,)
-      console.error(e,)
+      log.warn(`Upload failed, static files will be used instead.`,)
+      log.error(e,)
     },)
 }

@@ -1,21 +1,21 @@
-import type { Config, } from 'release-it';
+import type { Config, } from 'release-it'
 
 export default {
-  'plugins': {
+  plugins: {
     'release-it-pnpm': {},
     '@release-it-plugins/workspaces': {
-      'publish': false,
+      publish: false,
     },
   },
-  'npm': {
-    'publish': false,
+  npm: {
+    publish: false,
   },
-  'git': {
-    'requireCleanWorkingDir': false,
-    'commitMessage': 'chore: release ${version}',
-    'tagName': 'v${version}',
+  git: {
+    requireCleanWorkingDir: false,
+    commitMessage: 'chore: release ${version}',
+    tagName: 'v${version}',
   },
-  'github': {
-    'release': false,
+  github: {
+    release: false,
   },
 } satisfies Config

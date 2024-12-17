@@ -47,21 +47,17 @@ function parseQuery(query: string,) {
         }
 
         result[name].push(value,)
-      }
-      else {
+      } else {
         name = decodeURIComponent(name,)
         result[name] = value
       }
-    }
-    else {
+    } else {
       const decodedArg = decodeURIComponent(arg,)
       if (arg.startsWith('-',)) {
         result[decodedArg.slice(1,)] = false
-      }
-      else if (arg.startsWith('+',)) {
+      } else if (arg.startsWith('+',)) {
         result[decodedArg.slice(1,)] = true
-      }
-      else {
+      } else {
         result[decodedArg] = true
       }
     }

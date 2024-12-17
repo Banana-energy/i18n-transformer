@@ -1,5 +1,7 @@
 import type { Compiler, } from 'webpack'
+import * as process from 'process'
 import {
+  AppType,
   generate,
   type OutputSetting,
   upload,
@@ -18,11 +20,23 @@ class I18nTransformerPlugin {
   }
 
   apply(compiler: Compiler,): void {
+    const isWatchMode =
+      process.argv.includes('--watch',) ||
+      process.argv.includes('-w',) ||
+      process.argv.includes('serve',)
+
     compiler.hooks.afterCompile.tap('I18nTransformerPlugin', () => {
       generate(this.outputConfig,)
     },)
+
     compiler.hooks.afterEmit.tap('I18nTransformerPlugin', () => {
+      if (isWatchMode) {
+        return
+      }
       if (this.uploadConfig) {
+        if (!this.uploadConfig.appType) {
+          this.uploadConfig.appType = AppType.VUE2
+        }
         upload(this.uploadConfig, this.outputConfig,)
       }
     },)

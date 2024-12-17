@@ -88,16 +88,14 @@ function createT({
   }
   if (splits.length === 1) {
     return splits[0]
-  }
-  else {
+  } else {
     const recurExp = (nodeList: (StringLiteral | CallExpression)[],): BinaryExpression => {
       if (nodeList.length > 2) {
         const lastIndex = nodeList.length - 1
         const right = nodeList[lastIndex]
         const left = recurExp(nodeList.slice(0, lastIndex,),)
         return binaryExpression('+', left, right,)
-      }
-      else {
+      } else {
         return binaryExpression('+', nodeList[0], nodeList[1],)
       }
     }
@@ -144,8 +142,7 @@ function transBinaryExp(params: TransformOptions, options: GlobalSetting,) {
   const left = parent.left
   if (left.type === 'StringLiteral' && left.value === originValue) {
     parent.left = createT(params, options,)!
-  }
-  else {
+  } else {
     parent.right = createT(params, options,)!
   }
 }
@@ -169,11 +166,9 @@ function transCondExp(params: TransformOptions, options: GlobalSetting,) {
   } = parent
   if (test.type === 'StringLiteral' && test.value === originValue) {
     parent.test = createT(params, options,)!
-  }
-  else if (consequent.type === 'StringLiteral' && consequent.value === originValue) {
+  } else if (consequent.type === 'StringLiteral' && consequent.value === originValue) {
     parent.consequent = createT(params, options,)!
-  }
-  else if (alternate.type === 'StringLiteral' && alternate.value === originValue) {
+  } else if (alternate.type === 'StringLiteral' && alternate.value === originValue) {
     parent.alternate = createT(params, options,)!
   }
 }
@@ -190,8 +185,7 @@ function transLogicExp(params: TransformOptions, options: GlobalSetting,) {
   } = parent
   if (left.type === 'StringLiteral' && left.value === originValue) {
     parent.left = createT(params, options,)!
-  }
-  else if (right.type === 'StringLiteral' && right.value === originValue) {
+  } else if (right.type === 'StringLiteral' && right.value === originValue) {
     parent.right = createT(params, options,)!
   }
 }

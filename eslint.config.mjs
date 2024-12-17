@@ -18,6 +18,7 @@ export default antfu({
   },
   ignores: ['eslint.config.mjs'],
   rules: {
+    'style/brace-style': ['warn', '1tbs'],
     'unicorn/prefer-node-protocol': 'off',
     'unocss/order-attributify': 'off',
     'style/array-bracket-spacing': ['error', 'always',],

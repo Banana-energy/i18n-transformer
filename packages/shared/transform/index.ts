@@ -160,8 +160,7 @@ export function transform({
       const matched = path.node.specifiers.some((item,) => {
         if (item.type === 'ImportDefaultSpecifier') {
           return item.local.name === dependency.name
-        }
-        else if (item.type === 'ImportSpecifier') {
+        } else if (item.type === 'ImportSpecifier') {
           return item.imported.type === 'Identifier' && item.imported.name === dependency.name
         }
         return false
@@ -195,8 +194,7 @@ export function transform({
             }
           },)
         }
-      }
-      else {
+      } else {
         if (path.node.id.type === 'Identifier' && path.node.id.name === dependency.name) {
           nameMatched = true
         }
@@ -296,8 +294,7 @@ export function transform({
     ast.program.body = i18nImportAst.program.body.concat(ast.program.body,)
     if (isCommonJS) {
       ast.program.body.splice(1, 0, ...preprocessingBody,)
-    }
-    else {
+    } else {
       const firstNonImportIndex = ast.program.body.findIndex(
         item => item.type !== 'ImportDeclaration',
       )

@@ -1,18 +1,18 @@
-import typescript from 'rollup-plugin-ts'
 import { babel, } from '@rollup/plugin-babel'
+import typescript from 'rollup-plugin-ts'
 
 const commonOptions = ({
-  external: ['path', 'fs', 'crypto',],
+  external: [ 'path', 'fs', 'crypto', ],
   plugins: [
     typescript(),
     babel({
       babelHelpers: 'bundled',
-      extensions: ['.ts',],
+      extensions: [ '.ts', ],
     },),
   ],
 })
 
-const packageNames = ['shared', 'vite-plugin', 'webpack-plugin',];
+const packageNames = [ 'shared', 'vite-plugin', 'webpack-plugin', ]
 const packages = packageNames.reduce((pkg, packageName,) => {
   pkg.push({
     input: `packages/${packageName}/index.ts`,
@@ -49,6 +49,6 @@ const packages = packageNames.reduce((pkg, packageName,) => {
     },)
   }
   return pkg
-}, [],);
+}, [],)
 
 export default packages
