@@ -1,6 +1,6 @@
 {
   "name": "@kapo/vite-plugin-i18n-transformer",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "vite-plugin-i18n-transformer",
   "main": "dist/index.cjs",
   "module": "dist/index.js",
