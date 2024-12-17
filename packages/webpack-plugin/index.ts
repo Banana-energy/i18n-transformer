@@ -1,12 +1,15 @@
+import type { Compiler, } from 'webpack'
 import {
-  type OutputSetting, type UploadSetting, generate, upload,
-} from '@kapo/shared';
-import type { Compiler, } from 'webpack';
+  generate,
+  type OutputSetting,
+  upload,
+  type UploadSetting,
+} from '@kapo/shared'
 import i18nTransformerLoader from './loader'
 import { ignoreAutoI18n, } from './utils'
 
 class I18nTransformerPlugin {
-  outputConfig: OutputSetting;
+  outputConfig: OutputSetting
   uploadConfig?: UploadSetting
 
   constructor(outputConfig: OutputSetting, uploadConfig?: UploadSetting,) {
@@ -14,7 +17,7 @@ class I18nTransformerPlugin {
     this.uploadConfig = uploadConfig
   }
 
-  apply(compiler: Compiler,) {
+  apply(compiler: Compiler,): void {
     compiler.hooks.afterCompile.tap('I18nTransformerPlugin', () => {
       generate(this.outputConfig,)
     },)
@@ -27,8 +30,8 @@ class I18nTransformerPlugin {
 }
 
 export {
-  ignoreAutoI18n,
   I18nTransformerPlugin,
+  ignoreAutoI18n,
 }
 
 export default i18nTransformerLoader

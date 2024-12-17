@@ -1,15 +1,14 @@
-import {
-  type WordMap, getWordMap, setWordMap,
-} from '../generate/collectWords'
 import type { Node, } from '@babel/types'
 import path from 'path'
-import { md5, } from './utils';
+import * as process from 'process'
+import { getWordMap, setWordMap, type WordMap, } from '../generate/collectWords'
+import { md5, } from './utils'
 
 const rootPath = process.cwd()
 
 export interface OutputSetting {
-  filename: string;
-  path: string;
+  filename: string
+  path: string
   langList: string[]
 }
 
@@ -35,22 +34,22 @@ export interface DependencySetting {
 }
 
 export interface GlobalSetting {
-  output: OutputSetting;
-  localePattern: RegExp;
-  keyRule?: ((value: string, node: Node, map: WordMap) => string);
-  include?: string[];
-  exclude?: string[];
-  i18nCallee: string;
-  dependency?: DependencySetting;
+  output: OutputSetting
+  localePattern: RegExp
+  keyRule?: ((value: string, node: Node, map: WordMap) => string)
+  include?: string[]
+  exclude?: string[]
+  i18nCallee: string
+  dependency?: DependencySetting
   upload?: UploadSetting
 }
 
 export type Options = Partial<GlobalSetting>
 
-const defaultKeyRule = (value: string,) => {
+function defaultKeyRule(value: string,): string {
   const key = md5(value,)
   // let index = 1
-  const generateKey = () => {
+  const generateKey = (): string => {
     // while (exist[key]) {
     //   if (key.includes('-',)) {
     //     key = key.replace(/-\d+$/, `-${index}`,)
@@ -64,7 +63,7 @@ const defaultKeyRule = (value: string,) => {
   return generateKey()
 }
 
-function initSetting(setting: Options,) {
+function initSetting(setting: Options,): GlobalSetting {
   const defaultFile: OutputSetting = {
     filename: 'zh.json',
     path: path.resolve(rootPath, './lang',),
@@ -74,7 +73,7 @@ function initSetting(setting: Options,) {
     output: {
       ...defaultFile,
     },
-    localePattern: /[\u4e00-\u9fa5]+/, // Chinese
+    localePattern: /[\u4E00-\u9FA5]+/, // Chinese
     keyRule: defaultKeyRule,
     include: undefined,
     exclude: undefined,
@@ -85,25 +84,26 @@ function initSetting(setting: Options,) {
   Object.keys(defaultSetting,).forEach((key,) => {
     if (setting[key as keyof GlobalSetting] !== undefined) {
       if (typeof defaultSetting[key as keyof GlobalSetting] === 'object') {
-        Object.assign(defaultSetting[key as keyof GlobalSetting] as object, setting[key as keyof GlobalSetting],);
-      } else {
-        (defaultSetting[key as keyof GlobalSetting] as GlobalSetting[keyof GlobalSetting]) = setting[key as keyof GlobalSetting];
+        Object.assign(defaultSetting[key as keyof GlobalSetting] as object, setting[key as keyof GlobalSetting],)
+      }
+      else {
+        (defaultSetting[key as keyof GlobalSetting] as GlobalSetting[keyof GlobalSetting]) = setting[key as keyof GlobalSetting]
       }
     }
-  },);
+  },)
 
   return defaultSetting
 }
 
-export function init(options: Options,) {
+export function init(options: Options,): { setting: GlobalSetting } {
   return {
     setting: initSetting(options,),
   }
 }
 
-export const setConfig = (value: string, node: Node, option: GlobalSetting,) => {
+export function setConfig(value: string, node: Node, option: GlobalSetting,): string {
   const keyRule = option.keyRule || defaultKeyRule
-  const key = keyRule(value, node, getWordMap(),);
-  setWordMap(key, value,);
-  return key;
+  const key = keyRule(value, node, getWordMap(),)
+  setWordMap(key, value,)
+  return key
 }

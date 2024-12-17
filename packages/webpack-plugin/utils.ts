@@ -1,5 +1,5 @@
-import type { LoaderContext, } from 'webpack';
-import type { Options, } from '@kapo/shared';
+import type { Options, } from '@kapo/shared'
+import type { LoaderContext, } from 'webpack'
 
 const specialValues: Record<string, any> = {
   null: null,
@@ -10,11 +10,11 @@ const specialValues: Record<string, any> = {
 function parseQuery(query: string,) {
   if (!query.startsWith('?',)) {
     throw new Error(
-      "A valid query string passed to parseQuery should begin with '?'",
+      'A valid query string passed to parseQuery should begin with \'?\'',
     )
   }
 
-  query = query.slice(1,);
+  query = query.slice(1,)
 
   if (!query) {
     return {}
@@ -47,18 +47,22 @@ function parseQuery(query: string,) {
         }
 
         result[name].push(value,)
-      } else {
+      }
+      else {
         name = decodeURIComponent(name,)
         result[name] = value
       }
-    } else {
-      const decodedArg = decodeURIComponent(arg,);
+    }
+    else {
+      const decodedArg = decodeURIComponent(arg,)
       if (arg.startsWith('-',)) {
-        result[decodedArg.slice(1,)] = false;
-      } else if (arg.startsWith('+',)) {
-        result[decodedArg.slice(1,)] = true;
-      } else {
-        result[decodedArg] = true;
+        result[decodedArg.slice(1,)] = false
+      }
+      else if (arg.startsWith('+',)) {
+        result[decodedArg.slice(1,)] = true
+      }
+      else {
+        result[decodedArg] = true
       }
     }
   },)

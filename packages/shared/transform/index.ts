@@ -1,14 +1,3 @@
-import { parse, } from '@babel/parser'
-import babelTraverse, {
-  type NodePath, type TraverseOptions,
-} from '@babel/traverse'
-import babelGenerator from '@babel/generator'
-import {
-  localeWordPattern, transCode, transformTemplate,
-} from './transform'
-import {
-  type GlobalSetting, Module, setConfig,
-} from '../common/collect'
 import type {
   ArgumentPlaceholder,
   Expression,
@@ -23,7 +12,12 @@ import type {
   TemplateLiteral,
   V8IntrinsicIdentifier,
 } from '@babel/types'
-import type { WordMap, } from '../generate/collectWords';
+import type { WordMap, } from '../generate/collectWords'
+import babelGenerator from '@babel/generator'
+import { parse, } from '@babel/parser'
+import babelTraverse, { type NodePath, type TraverseOptions, } from '@babel/traverse'
+import { type GlobalSetting, Module, setConfig, } from '../common/collect'
+import { localeWordPattern, transCode, transformTemplate, } from './transform'
 
 interface BabelTraverse {
   default: typeof babelTraverse
@@ -33,29 +27,30 @@ interface BabelGenerator {
   default: typeof babelGenerator
 }
 
-type WithCallee = Extract<Node, { callee: Expression | Super | V8IntrinsicIdentifier; }>;
+type WithCallee = Extract<Node, { callee: Expression | Super | V8IntrinsicIdentifier }>
 type WithName = Extract<V8IntrinsicIdentifier | Expression | PrivateName, { name: string }>
-type WithValue = Extract<(ArgumentPlaceholder | SpreadElement | Expression), { value: string; }>;
-type WithKey = Extract<(ObjectProperty | RestElement), { key: PrivateName | Expression; }>;
+type WithValue = Extract<(ArgumentPlaceholder | SpreadElement | Expression), { value: string }>
+type WithKey = Extract<(ObjectProperty | RestElement), { key: PrivateName | Expression }>
 
-function getParent(path?: NodePath | null, deep = 1,) {
-  let tempPath = path;
+function getParent(path?: NodePath | null, deep = 1,): Node | void {
+  let tempPath = path
   for (let i = 0; i < deep - 1; i++) {
-    tempPath = tempPath?.parentPath;
+    tempPath = tempPath?.parentPath
   }
-  return tempPath?.parent;
+  return tempPath?.parent
 }
 
-function decodeUnicode(str: string,) {
+function decodeUnicode(str: string,): string {
   return str.replace(/\\u[\dA-F]{4}/gi, (match,) => {
-    return String.fromCharCode(parseInt(match.replace(/\\u/g, '',), 16,),)
+    return String.fromCharCode(Number.parseInt(match.replace(/\\u/g, '',), 16,),)
   },)
 }
 
-function isInConsole(path: NodePath<StringLiteral> | NodePath<TemplateLiteral>,) {
+function isInConsole(path: NodePath<StringLiteral> | NodePath<TemplateLiteral>,): boolean {
   const parent = path.parent as WithCallee
   const {
-    type: parentType, callee: parentCallee,
+    type: parentType,
+    callee: parentCallee,
   } = (parent)
   if (parentType === 'CallExpression' && parentCallee.type === 'MemberExpression') {
     const parentCalleeObject = parentCallee.object
@@ -67,42 +62,40 @@ function isInConsole(path: NodePath<StringLiteral> | NodePath<TemplateLiteral>,)
 }
 
 function findCommentExclude(path: NodePath,): boolean {
-  const parent = getParent(path,);
+  const parent = getParent(path,)
   if (!parent || parent.type !== 'CallExpression') {
-    return false;
+    return false
   }
 
-  const { callee, } = parent;
+  const { callee, } = parent
 
   // 判断是否直接调用 ignoreAutoI18n
   const isDirectIgnoreCall =
-    'name' in callee && callee.name === 'ignoreAutoI18n';
+    'name' in callee && callee.name === 'ignoreAutoI18n'
 
   // 判断是否是 MemberExpression 的形式
   const isMemberIgnoreCall =
     callee.type === 'MemberExpression' &&
     'name' in callee.property &&
-    callee.property.name === 'ignoreAutoI18n';
+    callee.property.name === 'ignoreAutoI18n'
 
   // 判断是否是 SequenceExpression 中的最后一项
   function isSequenceIgnoreCall(): boolean {
-
     if (callee.type === 'SequenceExpression' && callee.expressions.length > 0) {
-      const length = callee.expressions.length;
-      const lastExpression = callee.expressions[length - 1];
+      const length = callee.expressions.length
+      const lastExpression = callee.expressions[length - 1]
 
       if (lastExpression && lastExpression.type === 'MemberExpression' && 'name' in lastExpression.property) {
-        return lastExpression.property.name === 'ignoreAutoI18n';
+        return lastExpression.property.name === 'ignoreAutoI18n'
       }
     }
-    return false;
+    return false
   }
 
-  return isDirectIgnoreCall || isMemberIgnoreCall || isSequenceIgnoreCall();
+  return isDirectIgnoreCall || isMemberIgnoreCall || isSequenceIgnoreCall()
 }
 
-
-function matchVueFileSpecialRule(path: NodePath<StringLiteral>, id: string,) {
+function matchVueFileSpecialRule(path: NodePath<StringLiteral>, id: string,): boolean {
   const pathParent = path.parent
   if (
     /\.vue$/.test(id,) &&
@@ -137,9 +130,10 @@ function matchVueFileSpecialRule(path: NodePath<StringLiteral>, id: string,) {
 }
 
 export function transform({
-  id, code,
+  id,
+  code,
 }: {
-  id: string;
+  id: string
   code: string
 }, options: GlobalSetting,) {
   const collection: Record<string, string>[] = []
@@ -166,7 +160,8 @@ export function transform({
       const matched = path.node.specifiers.some((item,) => {
         if (item.type === 'ImportDefaultSpecifier') {
           return item.local.name === dependency.name
-        } else if (item.type === 'ImportSpecifier') {
+        }
+        else if (item.type === 'ImportSpecifier') {
           return item.imported.type === 'Identifier' && item.imported.name === dependency.name
         }
         return false
@@ -200,7 +195,8 @@ export function transform({
             }
           },)
         }
-      } else {
+      }
+      else {
         if (path.node.id.type === 'Identifier' && path.node.id.name === dependency.name) {
           nameMatched = true
         }
@@ -211,9 +207,7 @@ export function transform({
     },
     StringLiteral(path,) {
       if (
-        ['ExportAllDeclaration', 'ImportDeclaration', 'ExportNamedDeclaration',].indexOf(
-          path.parent.type,
-        ) !== -1
+        [ 'ExportAllDeclaration', 'ImportDeclaration', 'ExportNamedDeclaration', ].includes(path.parent.type,)
       ) {
         return
       }
@@ -258,7 +252,7 @@ export function transform({
       if (isInConsole(path,)) {
         return
       }
-      const hasWord = path.node.quasis.some((item,) =>
+      const hasWord = path.node.quasis.some(item =>
         localePattern.test(decodeUnicode(item.value.raw,),),
       )
       if (!hasWord) {
@@ -280,12 +274,14 @@ export function transform({
   if (dependency && hasLang && !loadedDependency) {
     // Add the import declaration
     const {
-      name, objectPattern, modules,
+      name,
+      objectPattern,
+      modules,
     } = dependency
     const isCommonJS = modules === Module.COMMONJS
     const i18nImport = isCommonJS ?
-      `const ${objectPattern ? '{' + name + '}' : name} = require('${dependency.path}');` :
-      `import ${objectPattern ? '{' + name + '}' : name} from '${dependency.path}'`
+      `const ${objectPattern ? `{${name}}` : name} = require('${dependency.path}');` :
+      `import ${objectPattern ? `{${name}}` : name} from '${dependency.path}'`
     const i18nImportAst = parse(i18nImport, {
       sourceType: 'module',
     },)
@@ -300,9 +296,10 @@ export function transform({
     ast.program.body = i18nImportAst.program.body.concat(ast.program.body,)
     if (isCommonJS) {
       ast.program.body.splice(1, 0, ...preprocessingBody,)
-    } else {
+    }
+    else {
       const firstNonImportIndex = ast.program.body.findIndex(
-        (item,) => item.type !== 'ImportDeclaration',
+        item => item.type !== 'ImportDeclaration',
       )
       if (firstNonImportIndex !== -1) {
         ast.program.body.splice(firstNonImportIndex, 0, ...preprocessingBody,)
@@ -313,7 +310,8 @@ export function transform({
   const generator = (babelGenerator as unknown as BabelGenerator).default || babelGenerator
 
   const {
-    code: newCode, map,
+    code: newCode,
+    map,
   } = generator(
     ast,
     {

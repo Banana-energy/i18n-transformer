@@ -1,9 +1,11 @@
 import {
-  type Plugin, createFilter,
-} from 'vite'
-import {
-  type Options, generate, init, transform, upload,
+  generate,
+  init,
+  type Options,
+  transform,
+  upload,
 } from '@kapo/shared'
+import { createFilter, type Plugin, } from 'vite'
 import { ignoreAutoI18n, } from './utils'
 
 export default (options: Options = {},): Plugin => {
@@ -24,7 +26,8 @@ export default (options: Options = {},): Plugin => {
         }
       }
       const {
-        code: newCode, map,
+        code: newCode,
+        map,
       } = transform(
         {
           id,
@@ -52,4 +55,6 @@ export default (options: Options = {},): Plugin => {
   }
 }
 
-export { ignoreAutoI18n, }
+export {
+  ignoreAutoI18n,
+}
