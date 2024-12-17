@@ -13,6 +13,14 @@ export interface OutputSetting {
   langList: string[]
 }
 
+export interface UploadSetting {
+  app: string
+  appType: string
+  uploadUrl: string
+  localePath: string
+  localeConfig: Record<string, string[]>
+}
+
 export enum Module {
   COMMONJS = 'CommonJS',
   ESNEXT = 'ESNext',
@@ -34,6 +42,7 @@ export interface GlobalSetting {
   exclude?: string[];
   i18nCallee: string;
   dependency?: DependencySetting;
+  upload?: UploadSetting
 }
 
 export type Options = Partial<GlobalSetting>

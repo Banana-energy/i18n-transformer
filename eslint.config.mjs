@@ -25,6 +25,7 @@ export default [
       'sort-imports': ['error', {
         ignoreDeclarationSort: true,
       },],
+      '@typescript-eslint/consistent-indexed-object-style': 'off',
       '@typescript-eslint/no-non-null-assertion': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/consistent-type-imports': [

@@ -2,7 +2,7 @@ import {
   type Plugin, createFilter,
 } from 'vite'
 import {
-  type Options, generate, init, transform,
+  type Options, generate, init, transform, upload,
 } from '@kapo/shared'
 import { ignoreAutoI18n, } from './utils'
 
@@ -42,6 +42,12 @@ export default (options: Options = {},): Plugin => {
         return
       }
       generate(setting.output,)
+    },
+    writeBundle() {
+      if (!isBuild || !setting.upload) {
+        return
+      }
+      upload(setting.upload, setting.output,)
     },
   }
 }
