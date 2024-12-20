@@ -69,9 +69,8 @@ function createT({
   wordKeyMap,
   callee,
 }: TransformOptions, options: GlobalSetting,) {
-  if (!options.localePattern.test(originValue,)) {
+  if (!options.localePattern.test(originValue,))
     return
-  }
   const splits: (StringLiteral | CallExpression)[] = []
   const wordByLines = originValue.split('\n',)
   wordByLines.forEach((wordLine,) => {
@@ -83,23 +82,46 @@ function createT({
     splits.push(...res as Exclude<typeof res[number], undefined>[],)
   },)
 
-  if (!splits.length) {
+  if (!splits.length)
     return
-  }
-  if (splits.length === 1) {
+  if (splits.length === 1)
     return splits[0]
-  } else {
-    const recurExp = (nodeList: (StringLiteral | CallExpression)[],): BinaryExpression => {
-      if (nodeList.length > 2) {
-        const lastIndex = nodeList.length - 1
-        const right = nodeList[lastIndex]
-        const left = recurExp(nodeList.slice(0, lastIndex,),)
-        return binaryExpression('+', left, right,)
-      } else {
-        return binaryExpression('+', nodeList[0], nodeList[1],)
-      }
+  const recurExp = (nodeList: (StringLiteral | CallExpression)[],): BinaryExpression => {
+    if (nodeList.length > 2) {
+      const lastIndex = nodeList.length - 1
+      const right = nodeList[lastIndex]
+      const left = recurExp(nodeList.slice(0, lastIndex,),)
+      return binaryExpression('+', left, right,)
+    } else {
+      return binaryExpression('+', nodeList[0], nodeList[1],)
     }
-    return recurExp(splits,)
+  }
+  return recurExp(splits,)
+}
+
+function transformNode(params: TransformOptions, options: GlobalSetting, transformFn: (params: TransformOptions, options: GlobalSetting) => void,) {
+  transformFn(params, options,)
+}
+
+export function transCode(params: TransformOptions, options: GlobalSetting,) {
+  const { path, } = params
+  const transformMap: Record<string, (params: TransformOptions, options: GlobalSetting) => void> = {
+    NewExpression: transMethodArg,
+    CallExpression: transMethodArg,
+    ArrayExpression: transArrayEle,
+    VariableDeclarator: transVarDec,
+    BinaryExpression: transBinaryExp,
+    ObjectProperty: transObjectValue,
+    ConditionalExpression: transCondExp,
+    LogicalExpression: transLogicExp,
+    ReturnStatement: transReturnState,
+    AssignmentExpression: transAssign,
+    AssignmentPattern: transAssign,
+  }
+
+  const transformFn = transformMap[path.parent.type]
+  if (transformFn) {
+    transformNode(params, options, transformFn,)
   }
 }
 
@@ -219,14 +241,11 @@ export function transformTemplate({
   const expressions = path.node.expressions
   const quasis = path.node.quasis
   if (expressions.length > 0) {
-    // 创建 i18n 替换表达式
-    // 构建对象字面量传递变量 { var1: selectedRows.value.length }
     const properties = expressions.map((expr,) => {
       const varName = `var${variableCount++}`
       return objectProperty(identifier(varName,), expr as Expression,)
     },)
 
-    // 替换模板字符串的静态部分，将 ${} 替换为 {var1} 样式
     const newStringParts = quasis
       .map((element, index,) => {
         const varName = expressions[index] ? `{var${index + 1}}` : ''
@@ -236,48 +255,11 @@ export function transformTemplate({
 
     const key = setConfig(newStringParts, path.node, options,)
 
-    // 替换模板字符串为 useI18n().t('key', { var1: ..., var2: ... })
     const i18nCall = callExpression(identifier(callee,), [
-      stringLiteral(key,), // 这里可以替换成需要的翻译 key
-      objectExpression(properties,), // 传入变量对象
+      stringLiteral(key,),
+      objectExpression(properties,),
     ],)
 
-    // 替换 TemplateLiteral 为 i18n 表达式
     path.replaceWith(i18nCall,)
-  }
-}
-
-export function transCode(params: TransformOptions, options: GlobalSetting,) {
-  const { path, } = params
-  switch (path.parent.type) {
-    case 'NewExpression':
-    case 'CallExpression':
-      transMethodArg(params, options,)
-      break
-    case 'ArrayExpression':
-      transArrayEle(params, options,)
-      break
-    case 'VariableDeclarator':
-      transVarDec(params, options,)
-      break
-    case 'BinaryExpression':
-      transBinaryExp(params, options,)
-      break
-    case 'ObjectProperty':
-      transObjectValue(params, options,)
-      break
-    case 'ConditionalExpression':
-      transCondExp(params, options,)
-      break
-    case 'LogicalExpression':
-      transLogicExp(params, options,)
-      break
-    case 'ReturnStatement':
-      transReturnState(params, options,)
-      break
-    case 'AssignmentExpression':
-    case 'AssignmentPattern':
-      transAssign(params, options,)
-      break
   }
 }
