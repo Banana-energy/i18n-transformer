@@ -1,6 +1,6 @@
 {
   "name": "@kapo/i18n-transformer",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "An automatic i18n conversion Vite/Webpack plugin.",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
