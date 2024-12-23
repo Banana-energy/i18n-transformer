@@ -46,7 +46,9 @@ export default (options: Options = {},): Plugin => {
         return
       }
       generate(setting.output,)
-      if (!setting.upload) {
+    },
+    writeBundle() {
+      if (!isBuild || !setting.upload) {
         return
       }
       if (!setting.upload.appType) {
