@@ -21,14 +21,16 @@ enum CodeSource {
   AUTOMATIC = 'FE_GENERATE_UPLOAD',
 }
 
-export enum AppType {
-  VUE3 = 'FE_VUE3',
+export enum AppTypeEnum {
   VUE2 = 'FE_VUE2',
+  VUE3 = 'FE_VUE3',
 }
+
+export type AppType = 'FE_VUE2' | 'FE_VUE3'
 
 export interface UploadPayload {
   app: string
-  appType: AppType
+  appType?: AppType
   codeSource: CodeSource
   langList: LangItem[]
 }

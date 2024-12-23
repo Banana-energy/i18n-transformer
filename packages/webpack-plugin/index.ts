@@ -1,12 +1,12 @@
 import type { Compiler, } from 'webpack'
 import * as process from 'process'
 import {
-  AppType,
   generate,
   type OutputSetting,
   upload,
   type UploadSetting,
 } from '@kapo/shared'
+import { AppTypeEnum, } from '@kapo/shared/generate'
 import i18nTransformerLoader from './loader'
 import { ignoreAutoI18n, } from './utils'
 
@@ -35,7 +35,7 @@ class I18nTransformerPlugin {
       }
       if (this.uploadConfig) {
         if (!this.uploadConfig.appType) {
-          this.uploadConfig.appType = AppType.VUE2
+          this.uploadConfig.appType = AppTypeEnum.VUE2
         }
         upload(this.uploadConfig, this.outputConfig,)
       }

@@ -1,11 +1,11 @@
 import {
-  AppType,
   generate,
   init,
   type Options,
   transform,
   upload,
 } from '@kapo/shared'
+import { AppTypeEnum, } from '@kapo/shared/generate'
 import { createFilter, type Plugin, } from 'vite'
 import { ignoreAutoI18n, } from './utils'
 
@@ -46,13 +46,11 @@ export default (options: Options = {},): Plugin => {
         return
       }
       generate(setting.output,)
-    },
-    writeBundle() {
-      if (!isBuild || !setting.upload) {
+      if (!setting.upload) {
         return
       }
       if (!setting.upload.appType) {
-        setting.upload.appType = AppType.VUE3
+        setting.upload.appType = AppTypeEnum.VUE3
       }
       upload(setting.upload, setting.output,)
     },

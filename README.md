@@ -38,7 +38,7 @@ export default defineConfig({
       i18nCallee: 'useI18n().t',                            // 调用国际化函数
       dependency: {                                         // 国际化函数依赖引入配置
         name: 'useI18n',                                    // 国际化函数依赖的名称
-        value: '@/hooks/web/useI18n',                       // 引入国际化函数的路径
+        path: '@/hooks/web/useI18n',                        // 引入国际化函数的路径
         objectPattern: true,                                // 引入的国际化函数依赖的形式。true为解构形式：import { name } from 'xxx'
         preprocessing: 'const {t} = use18n()'               // 这行代码将添加至import依赖之后，可以用来做一些处理
       },

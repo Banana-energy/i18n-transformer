@@ -15,7 +15,7 @@ export interface OutputSetting {
 
 export interface UploadSetting {
   app: string
-  appType: AppType
+  appType?: AppType
   uploadUrl: string
   localePath: string
   localeConfig: Record<string, string[]>
@@ -80,6 +80,7 @@ function initSetting(setting: Options,): GlobalSetting {
     exclude: undefined,
     i18nCallee: '',
     dependency: undefined,
+    upload: undefined,
   }
 
   Object.keys(defaultSetting,).forEach((key,) => {
