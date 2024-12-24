@@ -40,7 +40,7 @@ export default defineConfig({
         name: 'useI18n',                                    // 国际化函数依赖的名称
         path: '@/hooks/web/useI18n',                        // 引入国际化函数的路径
         objectPattern: true,                                // 引入的国际化函数依赖的形式。true为解构形式：import { name } from 'xxx'
-        preprocessing: 'const {t} = use18n()'               // 这行代码将添加至import依赖之后，可以用来做一些处理
+        preprocessing: 'const {t} = useI18n()'               // 这行代码将添加至import依赖之后，可以用来做一些处理
       },
       output: {
         filename: 'zh-CN.json',                             // 生成中文配置的文件名
