@@ -18,6 +18,7 @@ export default antfu({
   },
   ignores: ['eslint.config.mjs', '**/package.json', '**/**.md', 'tsconfig.json', 'pnpm-workspace.yaml'],
   rules: {
+    'no-new-func': 'off',
     'no-template-curly-in-string': 'off',
     'style/brace-style': ['warn', '1tbs'],
     'unicorn/prefer-node-protocol': 'off',
