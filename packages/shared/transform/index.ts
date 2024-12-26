@@ -1,16 +1,8 @@
 import type {
-  ArgumentPlaceholder,
-  Expression,
   Node,
-  ObjectProperty,
-  PrivateName,
-  RestElement,
-  SpreadElement,
   Statement,
   StringLiteral,
-  Super,
   TemplateLiteral,
-  V8IntrinsicIdentifier,
 } from '@babel/types'
 import type { WordMap, } from '../generate/collectWords'
 import babelGenerator from '@babel/generator'
@@ -27,11 +19,6 @@ interface BabelGenerator {
   default: typeof babelGenerator
 }
 
-type WithCallee = Extract<Node, { callee: Expression | Super | V8IntrinsicIdentifier }>
-type WithName = Extract<V8IntrinsicIdentifier | Expression | PrivateName, { name: string }>
-type WithValue = Extract<(ArgumentPlaceholder | SpreadElement | Expression), { value: string }>
-type WithKey = Extract<(ObjectProperty | RestElement), { key: PrivateName | Expression }>
-
 function getParent(path?: NodePath | null, deep = 1,): Node | void {
   let tempPath = path
   for (let i = 0; i < deep - 1; i++) {
@@ -47,15 +34,17 @@ function decodeUnicode(str: string,): string {
 }
 
 function isInConsole(path: NodePath<StringLiteral> | NodePath<TemplateLiteral>,): boolean {
-  const parent = path.parent as WithCallee
-  const {
-    type: parentType,
-    callee: parentCallee,
-  } = (parent)
-  if (parentType === 'CallExpression' && parentCallee.type === 'MemberExpression') {
-    const parentCalleeObject = parentCallee.object
-    if (parentCalleeObject.type === 'Identifier' && parentCalleeObject.name === 'console') {
-      return true
+  const parent = path.parent
+  if ('callee' in parent) {
+    const {
+      type: parentType,
+      callee: parentCallee,
+    } = parent
+    if (parentType === 'CallExpression' && parentCallee.type === 'MemberExpression') {
+      const parentCalleeObject = parentCallee.object
+      if (parentCalleeObject.type === 'Identifier' && parentCalleeObject.name === 'console') {
+        return true
+      }
     }
   }
   return false
@@ -182,14 +171,14 @@ export function transform({
       const initNodeCallee = initNode.callee
       if (initNodeCallee.type === 'Identifier' && initNodeCallee.name === 'require') {
         const args = initNode.arguments
-        if (args.length && dependency.path === (args[0] as WithValue).value) {
+        if (args.length && 'value' in args[0] && dependency.path === args[0].value) {
           valueMatched = true
         }
       }
       if (dependency.objectPattern) {
         if (path.node.id.type === 'ObjectPattern') {
           path.node.id.properties.forEach((item,) => {
-            if ((item as WithKey).key.type === 'Identifier' && ((item as WithKey).key as WithName).name === dependency.name) {
+            if ('key' in item && item.key && item.key.type === 'Identifier' && item.key.name === dependency.name) {
               nameMatched = true
             }
           },)
