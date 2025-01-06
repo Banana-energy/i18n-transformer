@@ -17,7 +17,7 @@ interface JSONObject {
   [key: string]: JSONValue
 }
 
-enum CodeSource {
+export enum CodeSource {
   STATIC = 'FE_SCAN_UPLOAD',
   AUTOMATIC = 'FE_GENERATE_UPLOAD',
 }
@@ -47,7 +47,7 @@ function formatTime() {
   return `${now.getFullYear()}-${pad(now.getDate(),)}-${pad(now.getMonth() + 1,)} ${pad(now.getHours(),)}:${pad(now.getMinutes(),)}:${pad(now.getSeconds(),)}`
 }
 
-const log = {
+export const log = {
   levels: {
     info: chalk.blue('INFO',),
     warn: chalk.yellow('WARN',),
@@ -160,7 +160,7 @@ async function readFileContent(filePath: string,): Promise<JSONObject> {
  * @param config - The upload settings.
  * @returns A map of merged JSON objects by locale.
  */
-async function loadLocaleConfig(
+export async function loadLocaleConfig(
   config: UploadSetting,
 ): Promise<Record<string, JSONObject>> {
   const dir = config.localePath
@@ -199,7 +199,7 @@ async function loadLocaleConfig(
  * @param output - The output settings.
  * @returns An array of LangItem objects.
  */
-async function loadOutputFiles(output: OutputSetting,): Promise<LangItem[]> {
+export async function loadOutputFiles(output: OutputSetting,): Promise<LangItem[]> {
   const outputPath = output.path
 
   if (!existsSync(outputPath,)) {

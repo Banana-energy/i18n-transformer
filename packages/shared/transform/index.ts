@@ -125,8 +125,8 @@ export function transform({
   id: string
   code: string
 }, options: GlobalSetting,) {
-  const collection: Record<string, string>[] = []
   let loadedDependency = false
+  let hasLang = false
   const {
     i18nCallee = '',
     dependency,
@@ -214,13 +214,10 @@ export function transform({
           }
           const res = localeWordPattern(val, options,)
           if (res && res.length) {
+            hasLang = true
             const wordKeyMap: WordMap = {}
             res.forEach((word,) => {
-              const key = setConfig(word, path.node, options,)
-              collection.push({
-                [key]: word,
-              },)
-              wordKeyMap[word] = key
+              wordKeyMap[word] = setConfig(word, path.node, options,)
             },)
             transCode({
               path,
@@ -245,6 +242,7 @@ export function transform({
       if (!hasWord) {
         return
       }
+      hasLang = true
       transformTemplate({
         path,
         callee: i18nCallee,
@@ -253,9 +251,6 @@ export function transform({
   }
   const traverse = (babelTraverse as unknown as BabelTraverse).default || babelTraverse
   traverse(ast, visitor,)
-
-  // Whether to collect the language to be internationalized
-  const hasLang = !!collection.length
 
   // If user set the dependency, which wants to import, but now hasn't imported, and has language to be internationalized
   if (dependency && hasLang && !loadedDependency) {
