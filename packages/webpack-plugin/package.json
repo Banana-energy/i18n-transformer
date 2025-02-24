@@ -1,6 +1,6 @@
 {
   "name": "@higgins/webpack-plugin-i18n-transformer",
-  "version": "1.0.19",
+  "version": "1.0.20",
   "description": "webpack-plugin-i18n-transformer",
   "main": "dist/index.cjs",
   "module": "dist/index.js",

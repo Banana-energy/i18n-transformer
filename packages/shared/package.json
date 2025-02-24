@@ -1,6 +1,6 @@
 {
   "name": "@higgins/shared",
-  "version": "1.0.19",
+  "version": "1.0.20",
   "description": "i18n utils",
   "main": "dist/index.cjs",
   "module": "dist/index.js",
