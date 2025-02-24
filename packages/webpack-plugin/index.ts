@@ -5,8 +5,8 @@ import {
   type OutputSetting,
   upload,
   type UploadSetting,
-} from '@kapo/shared'
-import { AppTypeEnum, } from '@kapo/shared/generate'
+} from '@higgins/shared'
+import { AppTypeEnum, } from '@higgins/shared/generate'
 import i18nTransformerLoader from './loader'
 import { ignoreAutoI18n, } from './utils'
 

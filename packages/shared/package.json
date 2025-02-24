@@ -1,5 +1,5 @@
 {
-  "name": "@kapo/shared",
+  "name": "@higgins/shared",
   "version": "1.0.19",
   "description": "i18n utils",
   "main": "dist/index.cjs",

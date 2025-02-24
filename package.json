@@ -1,5 +1,5 @@
 {
-  "name": "@kapo/i18n-transformer",
+  "name": "@higgins/i18n-transformer",
   "version": "1.0.19",
   "description": "An automatic i18n conversion Vite/Webpack plugin.",
   "main": "./dist/index.cjs",

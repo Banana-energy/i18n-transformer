@@ -4,8 +4,8 @@ import {
   type Options,
   transform,
   upload,
-} from '@kapo/shared'
-import { AppTypeEnum, } from '@kapo/shared/generate'
+} from '@higgins/shared'
+import { AppTypeEnum, } from '@higgins/shared/generate'
 import { createFilter, type Plugin, } from 'vite'
 import { ignoreAutoI18n, } from './utils'
 

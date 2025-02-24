@@ -1,5 +1,5 @@
 {
-  "name": "@kapo/vite-plugin-i18n-transformer",
+  "name": "@higgins/vite-plugin-i18n-transformer",
   "version": "1.0.19",
   "description": "vite-plugin-i18n-transformer",
   "main": "dist/index.cjs",
@@ -34,6 +34,6 @@
     "vite": "^5.4.8"
   },
   "dependencies": {
-    "@kapo/shared": "workspace:*"
+    "@higgins/shared": "workspace:*"
   }
 }
