@@ -3,7 +3,11 @@
   "version": "1.0.20",
   "description": "vite-plugin-i18n-transformer",
   "main": "dist/index.cjs",
-  "module": "dist/index.js",
+  "module": "dist/index.mjs",
+  "exports": {
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.cjs"
+  },
   "files": [
     "dist"
   ],

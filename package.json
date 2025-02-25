@@ -3,7 +3,7 @@
   "version": "1.0.20",
   "description": "An automatic i18n conversion Vite/Webpack plugin.",
   "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
+  "module": "./dist/index.mjs",
   "type": "module",
   "files": [
     "dist"

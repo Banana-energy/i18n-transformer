@@ -23,7 +23,7 @@ const packages = packageNames.reduce((pkg, packageName,) => {
         exports: 'named',
       },
       {
-        file: `./packages/${packageName}/dist/index.js`,
+        file: `./packages/${packageName}/dist/index.mjs`,
         format: 'es',
         exports: 'named',
       },
@@ -40,7 +40,7 @@ const packages = packageNames.reduce((pkg, packageName,) => {
           exports: 'named',
         },
         {
-          file: `./packages/${packageName}/dist/utils.js`,
+          file: `./packages/${packageName}/dist/utils.mjs`,
           format: 'es',
           exports: 'named',
         },
