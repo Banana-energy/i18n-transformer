@@ -1,6 +1,6 @@
 {
   "name": "@higgins/i18n-transformer",
-  "version": "1.0.20",
+  "version": "1.0.21",
   "description": "An automatic i18n conversion Vite/Webpack plugin.",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
