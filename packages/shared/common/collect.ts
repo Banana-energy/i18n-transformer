@@ -17,8 +17,8 @@ export interface UploadSetting {
   app: string
   appType?: AppType
   uploadUrl: string
-  localePath: string
-  localeConfig: Record<string, string[]>
+  localePath?: string
+  localeConfig?: Record<string, string[]>
 }
 
 export enum Module {

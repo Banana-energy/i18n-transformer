@@ -163,7 +163,7 @@ async function readFileContent(filePath: string,): Promise<JSONObject> {
 export async function loadLocaleConfig(
   config: UploadSetting,
 ): Promise<Record<string, JSONObject>> {
-  const dir = config.localePath
+  const dir = config.localePath!
 
   if (!existsSync(dir,)) {
     throw new Error(`Locale path does not exist: ${dir}`,)
@@ -171,7 +171,7 @@ export async function loadLocaleConfig(
 
   const localeData: Record<string, JSONObject> = {}
 
-  for (const [ locale, filePaths, ] of Object.entries(config.localeConfig,)) {
+  for (const [ locale, filePaths, ] of Object.entries(config.localeConfig!,)) {
     if (!filePaths || filePaths.length === 0) {
       throw new Error(`No file paths specified for locale: ${locale}`,)
     }
@@ -234,21 +234,37 @@ export async function upload(
     throw new Error('Upload URL is missing.',)
   }
 
-  const localeConfigMap = await loadLocaleConfig(config,)
+  if (config.localePath && config.localeConfig) {
+    // 有静态翻译资源
+    const localeConfigMap = await loadLocaleConfig(config,)
 
-  const staticLangList: LangItem[] = Object.entries(localeConfigMap,).map(([ locale, json, ],) => ({
-    locale,
-    json,
-  }),)
+    const staticLangList: LangItem[] = Object.entries(localeConfigMap,).map(([ locale, json, ],) => ({
+      locale,
+      json,
+    }),)
+    const staticPayload: UploadPayload = {
+      app: config.app,
+      appType: config.appType,
+      codeSource: CodeSource.STATIC,
+      langList: staticLangList,
+    }
+    axios
+      .post(config.uploadUrl, staticPayload,)
+      .then((response,) => {
+        if (response.data.success) {
+          log.info(`Upload successful.`,)
+        } else {
+          log.warn(`Upload failed, static files will be used instead.`,)
+          log.error(response.data.responseDesc,)
+        }
+      },)
+      .catch((e,) => {
+        log.warn(`Upload failed, static files will be used instead.`,)
+        log.error(e,)
+      },)
+  }
 
   const automaticLangList = await loadOutputFiles(output,)
-
-  const staticPayload: UploadPayload = {
-    app: config.app,
-    appType: config.appType,
-    codeSource: CodeSource.STATIC,
-    langList: staticLangList,
-  }
 
   const automaticPayload: UploadPayload = {
     app: config.app,
@@ -257,20 +273,6 @@ export async function upload(
     langList: automaticLangList,
   }
 
-  axios
-    .post(config.uploadUrl, staticPayload,)
-    .then((response,) => {
-      if (response.data.success) {
-        log.info(`Upload successful.`,)
-      } else {
-        log.warn(`Upload failed, static files will be used instead.`,)
-        log.error(response.data.responseDesc,)
-      }
-    },)
-    .catch((e,) => {
-      log.warn(`Upload failed, static files will be used instead.`,)
-      log.error(e,)
-    },)
   axios
     .post(config.uploadUrl, automaticPayload,)
     .then((response,) => {
