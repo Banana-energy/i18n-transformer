@@ -6,7 +6,15 @@
   "module": "dist/index.mjs",
   "exports": {
     "import": "./dist/index.mjs",
-    "require": "./dist/index.cjs"
+    "require": "./dist/index.cjs",
+    "./dist/utils": {
+      "import": "./dist/utils.mjs",
+      "require": "./dist/utils.cjs"
+    },
+    "./utils/*": {
+      "import": "./dist/utils/*.mjs",
+      "require": "./dist/utils/*.cjs"
+    }
   },
   "files": [
     "dist"
