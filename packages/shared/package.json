@@ -1,6 +1,6 @@
 {
   "name": "@higgins-mmt/shared",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "i18n utils",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",

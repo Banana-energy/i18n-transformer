@@ -1,6 +1,6 @@
 {
   "name": "@higgins-mmt/vite-plugin-i18n-transformer",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "vite-plugin-i18n-transformer",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
