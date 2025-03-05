@@ -1,10 +1,15 @@
-import type {Node, Statement, StringLiteral, TemplateLiteral,} from '@babel/types'
-import type {WordMap,} from '../generate/collectWords'
+import type {
+  Node,
+  Statement,
+  StringLiteral,
+  TemplateLiteral,
+} from '@babel/types'
+import type { WordMap, } from '../generate/collectWords'
 import babelGenerator from '@babel/generator'
-import {parse,} from '@babel/parser'
-import babelTraverse, {type NodePath, type TraverseOptions,} from '@babel/traverse'
-import {type GlobalSetting, Module, setConfig,} from '../common/collect'
-import {localeWordPattern, transCode, transformTemplate,} from './transform'
+import { parse, } from '@babel/parser'
+import babelTraverse, { type NodePath, type TraverseOptions, } from '@babel/traverse'
+import { type GlobalSetting, Module, setConfig, } from '../common/collect'
+import { localeWordPattern, transCode, transformTemplate, } from './transform'
 
 interface BabelTraverse {
   default: typeof babelTraverse
@@ -51,7 +56,7 @@ function findCommentExclude(path: NodePath,): boolean {
     return false
   }
 
-  const {callee,} = parent
+  const { callee, } = parent
 
   // 判断是否直接调用 ignoreAutoI18n
   const isDirectIgnoreCall =
@@ -114,9 +119,9 @@ function matchVueFileSpecialRule(path: NodePath<StringLiteral>, id: string,): bo
 }
 
 export function transform({
-                            id,
-                            code,
-                          }: {
+  id,
+  code,
+}: {
   id: string
   code: string
 }, options: GlobalSetting,) {
@@ -189,7 +194,7 @@ export function transform({
     },
     StringLiteral(path,) {
       if (
-        ['ExportAllDeclaration', 'ImportDeclaration', 'ExportNamedDeclaration',].includes(path.parent.type,)
+        [ 'ExportAllDeclaration', 'ImportDeclaration', 'ExportNamedDeclaration', ].includes(path.parent.type,)
       ) {
         return
       }
@@ -292,7 +297,7 @@ export function transform({
     ast,
     {
       sourceMaps: true,
-      sourceFileName: id.split('/').pop()
+      sourceFileName: id.split('/',).pop(),
     },
     code,
   )

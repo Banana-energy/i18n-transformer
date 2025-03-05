@@ -4,8 +4,8 @@ import {
   type Options,
   transform,
   upload,
-} from '@higgins/shared'
-import { AppTypeEnum, } from '@higgins/shared/generate'
+} from '@higgins-mmt/shared'
+import { AppTypeEnum, } from '@higgins-mmt/shared/generate'
 import { createFilter, type Plugin, } from 'vite'
 import { ignoreAutoI18n, } from './utils'
 

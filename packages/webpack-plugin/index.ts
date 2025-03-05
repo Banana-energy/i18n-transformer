@@ -1,9 +1,14 @@
-import type {Compiler,} from 'webpack'
+import type { Compiler, } from 'webpack'
 import * as process from 'process'
-import {generate, type OutputSetting, upload, type UploadSetting,} from '@higgins/shared'
-import {AppTypeEnum,} from '@higgins/shared/generate'
+import {
+  generate,
+  type OutputSetting,
+  upload,
+  type UploadSetting,
+} from '@higgins-mmt/shared'
+import { AppTypeEnum, } from '@higgins-mmt/shared/generate'
 import i18nTransformerLoader from './loader'
-import {ignoreAutoI18n,} from './utils'
+import { ignoreAutoI18n, } from './utils'
 
 class I18nTransformerPlugin {
   outputConfig: OutputSetting

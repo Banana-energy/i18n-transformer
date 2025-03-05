@@ -1,4 +1,4 @@
-import type { Options, } from '@higgins/shared'
+import type { Options, } from '@higgins-mmt/shared'
 import type { LoaderContext, } from 'webpack'
 
 const specialValues: Record<string, any> = {

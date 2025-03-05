@@ -120,7 +120,7 @@ importers:
 
   packages/vite-plugin:
     dependencies:
-      '@higgins/shared':
+      '@higgins-mmt/shared':
         specifier: workspace:*
         version: link:../shared
     devDependencies:
@@ -136,7 +136,7 @@ importers:
 
   packages/webpack-plugin:
     dependencies:
-      '@higgins/shared':
+      '@higgins-mmt/shared':
         specifier: workspace:*
         version: link:../shared
       '@rollup/pluginutils':

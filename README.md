@@ -12,14 +12,14 @@ on AST.
 ### Vite
 
 ```shell
-  pnpm i -D @higgins/vite-plugin-i18n-transformer
+  pnpm i -D @higgins-mmt/vite-plugin-i18n-transformer
 ```
 
 ```js
 // vite.config.ts
 import Vue from "@vitejs/plugin-vue";
 import VueJsx from "@vitejs/plugin-vue-jsx";
-import I18nTransformer from "@higgins/vite-plugin-i18n-transformer";
+import I18nTransformer from "@higgins-mmt/vite-plugin-i18n-transformer";
 import {defineConfig} from 'vite'
 import path from 'path'
 
@@ -64,7 +64,7 @@ export default defineConfig({
 ### Webpack
 
 ```shell
-  npm i -D @higgins/webpack-plugin-i18n-transformer
+  npm i -D @higgins-mmt/webpack-plugin-i18n-transformer
 ```
 
 Webpack由于vue-loader版本不同，需要分版本处理。
@@ -73,7 +73,7 @@ Webpack由于vue-loader版本不同，需要分版本处理。
 
 ```js
 // vue.config.js
-const {I18nTransformerPlugin} = require('@higgins/webpack-plugin-i18n-transformer')
+const {I18nTransformerPlugin} = require('@higgins-mmt/webpack-plugin-i18n-transformer')
 module.exports = {
   ...,
   plugins: [
@@ -106,7 +106,7 @@ module.exports = {
     config.module
       .rule('js')
       .use('i18n-loader')
-      .loader('@higgins/webpack-plugin-i18n-transformer')
+      .loader('@higgins-mmt/webpack-plugin-i18n-transformer')
       .options(i18nOptions)
       .before('babel-loader')
       .end()
@@ -116,7 +116,7 @@ module.exports = {
       .resourceQuery(/type=template/)
       .enforce('post')
       .use('i18n-loader')
-      .loader('@higgins/webpack-plugin-i18n-transformer')
+      .loader('@higgins-mmt/webpack-plugin-i18n-transformer')
       .options(i18nOptions)
   }
 }

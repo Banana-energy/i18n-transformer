@@ -1,5 +1,5 @@
 import type { LoaderContext, } from 'webpack'
-import { init, type Options, transform, } from '@higgins/shared'
+import { init, type Options, transform, } from '@higgins-mmt/shared'
 import { createFilter, } from '@rollup/pluginutils'
 import { getOptions, } from './utils'
 
