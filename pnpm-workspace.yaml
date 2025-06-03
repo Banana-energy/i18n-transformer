@@ -1,4 +1,2 @@
 packages:
-  - 'packages/shared'
-  - 'packages/vite-plugin'
-  - 'packages/webpack-plugin'
+  - 'packages/*'

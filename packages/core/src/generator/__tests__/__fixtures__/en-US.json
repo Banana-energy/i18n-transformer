@@ -1,0 +1,9 @@
+{
+  "hello": "Hello",
+  "welcome": "Welcome",
+  "goodbye": "Goodbye",
+  "nested": {
+    "morning": "Good morning",
+    "evening": "Good evening"
+  }
+} 

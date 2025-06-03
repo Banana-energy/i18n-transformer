@@ -1,0 +1,7 @@
+{
+  "hello": "Hello",
+  "invalid": {
+    "key": "Value",
+    missing_quote: "Error"
+  }
+} 

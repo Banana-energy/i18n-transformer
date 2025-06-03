@@ -1,0 +1,9 @@
+{
+  "hello": "你好",
+  "welcome": "欢迎",
+  "goodbye": "再见",
+  "nested": {
+    "morning": "早上好",
+    "evening": "晚上好"
+  }
+} 

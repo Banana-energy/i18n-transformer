@@ -1,6 +1,0 @@
-export * from './common/collect'
-export * from './common/utils'
-export * from './generate/collectWords'
-export * from './generate/index'
-export * from './transform/index'
-export * from './transform/transform'

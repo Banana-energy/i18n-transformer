@@ -1,53 +1,29 @@
 {
   "name": "@higgins-mmt/vite-plugin-i18n-transformer",
-  "version": "1.2.0",
-  "description": "vite-plugin-i18n-transformer",
-  "main": "dist/index.cjs",
-  "module": "dist/index.mjs",
+  "version": "1.3.0",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
       "require": "./dist/index.cjs"
-    },
-    "./dist/utils": {
-      "import": "./dist/utils.mjs",
-      "require": "./dist/utils.cjs"
-    },
-    "./utils": {
-      "import": "./dist/utils.mjs",
-      "require": "./dist/utils.cjs"
     }
   },
-  "files": [
-    "dist"
-  ],
-  "author": "Banana-energy",
-  "license": "MIT",
   "scripts": {
-    "clear": "rimraf dist"
+    "build": "rollup -c --configPlugin @rollup/plugin-typescript",
+    "clean": "rimraf dist"
   },
-  "release-it": {
-    "git": false,
-    "plugin": {
-      "@release-it/bumper": {
-        "out": {
-          "file": "package.json",
-          "path": [
-            "dependencies.@karpo/shared"
-          ]
-        }
-      }
-    }
-  },
-  "publishConfig": {
-    "access": "public"
+  "keywords": [],
+  "author": "Kapo.Yang",
+  "license": "MIT",
+  "packageManager": "pnpm@10.7.0",
+  "dependencies": {
+    "@higgins-mmt/core": "workspace:*"
   },
   "devDependencies": {
-    "@release-it/bumper": "^6.0.1",
-    "release-it": "^17.7.0",
-    "vite": "^5.4.8"
-  },
-  "dependencies": {
-    "@higgins-mmt/shared": "workspace:*"
+    "vite": "^6.3.5"
   }
 }
