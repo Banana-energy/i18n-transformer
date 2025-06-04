@@ -7,7 +7,7 @@ import {
 } from '@higgins-mmt/core'
 import i18nTransformerLoader from './loader'
 
-type UploadOptions = UploadConfig & {
+type UploadOptions = Omit<UploadConfig, 'appType'> & {
   appType?: 'FE_VUE2' | 'FE_VUE3'
 }
 
@@ -40,9 +40,13 @@ export class I18nTransformPlugin {
       if (!this.uploadConfig.appType) {
         this.uploadConfig.appType = 'FE_VUE2'
       }
-      upload(this.uploadConfig, this.generateConfig,)
+      upload(this.uploadConfig as UploadConfig, this.generateConfig,)
     },)
   }
 }
 
 export default i18nTransformerLoader
+
+export {
+  ignoreAutoI18n,
+} from '@higgins-mmt/core'

@@ -1,5 +1,5 @@
 {
-  "name": "webpack-plugin",
+  "name": "@higgins-mmt/webpack-plugin-i18n-transformer",
   "version": "1.3.0",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -23,8 +23,18 @@
   "author": "Kapo.Yang",
   "license": "MIT",
   "packageManager": "pnpm@10.7.0",
-  "devDependencies": {
+  "dependencies": {
+    "@higgins-mmt/core": "workspace:*",
     "@babel/core": "^7.27.3",
+    "@babel/generator": "^7.27.3",
+    "@babel/parser": "^7.27.3",
+    "@babel/traverse": "^7.27.3",
+    "@babel/types": "^7.27.3",
+    "await-to-js": "^3.0.0",
+    "axios": "^1.9.0",
+    "chalk": "^5.4.1"
+  },
+  "devDependencies": {
     "@babel/plugin-transform-nullish-coalescing-operator": "^7.27.1",
     "@babel/plugin-transform-optional-chaining": "^7.27.1",
     "@babel/preset-env": "^7.27.2",
@@ -33,5 +43,11 @@
     "@rollup/pluginutils": "^5.1.4",
     "@types/webpack": "^5.28.5",
     "webpack": "^5.99.9"
+  },
+  "peerDependencies": {
+    "webpack": "^4.0.0 || ^5.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

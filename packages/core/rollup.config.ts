@@ -1,27 +1,36 @@
+import type { RollupOptions, } from 'rollup'
 import typescript from '@rollup/plugin-typescript'
+import dts from 'rollup-plugin-dts'
 
-/**
- * @type {import('rollup').RollupOptions}
- */
-export default {
-  input: 'src/index.ts',
-  output: [
-    {
-      file: 'dist/index.js',
+const configs: RollupOptions[] = [
+  {
+    input: 'src/index.ts',
+    output: [
+      {
+        file: 'dist/index.js',
+        format: 'es',
+        exports: 'named',
+      },
+      {
+        file: 'dist/index.cjs',
+        format: 'cjs',
+        exports: 'named',
+      },
+    ],
+    plugins: [
+      typescript({
+        tsconfig: './tsconfig.json',
+      },),
+    ],
+  },
+  {
+    input: 'src/index.ts',
+    output: {
+      file: 'dist/index.d.ts',
       format: 'es',
-      sourcemap: true,
     },
-    {
-      file: 'dist/index.cjs',
-      format: 'cjs',
-      sourcemap: true,
-    },
-  ],
-  plugins: [
-    typescript({
-      tsconfig: './tsconfig.json',
-      declaration: true,
-      declarationDir: './dist',
-    },),
-  ],
-}
+    plugins: [ dts(), ],
+  },
+]
+
+export default configs

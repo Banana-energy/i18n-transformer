@@ -1,3 +1,4 @@
+import type { UploadConfig, } from '@higgins-mmt/core'
 import type { Plugin, } from 'vite'
 import type { I18nPluginOptions, } from './types'
 import { generate, transform, upload, } from '@higgins-mmt/core'
@@ -47,7 +48,11 @@ export default (options: I18nPluginOptions,): Plugin => {
       if (!options.uploadConfig.appType) {
         options.uploadConfig.appType = 'FE_VUE3'
       }
-      upload(options.uploadConfig, options.generateConfig,)
+      upload(options.uploadConfig as UploadConfig, options.generateConfig,)
     },
   }
 }
+
+export {
+  ignoreAutoI18n,
+} from '@higgins-mmt/core'

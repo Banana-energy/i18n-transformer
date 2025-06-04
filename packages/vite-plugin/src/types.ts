@@ -1,6 +1,6 @@
 import type { GenerateConfig, TransformConfig, UploadConfig, } from '@higgins-mmt/core'
 
-type UploadOptions = UploadConfig & {
+type UploadOptions = Omit<UploadConfig, 'appType'> & {
   appType?: 'FE_VUE2' | 'FE_VUE3'
 }
 

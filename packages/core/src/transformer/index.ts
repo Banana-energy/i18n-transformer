@@ -10,9 +10,9 @@
 import type { NodePath, TraverseOptions, } from '@babel/traverse'
 import type { Statement, TemplateLiteral, } from '@babel/types'
 import type { TransformConfig, } from './types'
-import generate from '@babel/generator'
+import babelGenerator from '@babel/generator'
 import { parse, } from '@babel/parser'
-import traverse from '@babel/traverse'
+import babelTraverse from '@babel/traverse'
 import { getMessages, setMessage, } from '../generator'
 import { generateKey, } from '../shared/utils'
 import { extractLocalizedStrings, transformStringLiteral, } from './stringLiteral'
@@ -23,6 +23,14 @@ import {
   isChineseText,
   isInConsole,
 } from './utils'
+
+interface BabelTraverse {
+  default: typeof babelTraverse
+}
+
+interface BabelGenerator {
+  default: typeof babelGenerator
+}
 
 /**
  * 转换源代码为国际化版本
@@ -192,6 +200,7 @@ export function transform({
   }
 
   // 遍历AST
+  const traverse = (babelTraverse as unknown as BabelTraverse).default || babelTraverse
   traverse(ast, visitor,)
 
   // 如果配置了依赖且找到了需要转换的文本，但还没有导入依赖
@@ -232,10 +241,11 @@ export function transform({
   }
 
   // 生成代码
+  const generator = (babelGenerator as unknown as BabelGenerator).default || babelGenerator
   const {
     code: newCode,
     map,
-  } = generate(ast, {
+  } = generator(ast, {
     sourceMaps: true,
     sourceFileName: id.split('/',).pop(),
   }, code,)

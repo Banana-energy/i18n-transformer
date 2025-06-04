@@ -1,43 +1,64 @@
 import type { RollupOptions, } from 'rollup'
 import { babel, } from '@rollup/plugin-babel'
 import typescript from '@rollup/plugin-typescript'
+import dts from 'rollup-plugin-dts'
 
-const config: RollupOptions = {
-  input: 'src/index.ts',
-  output: [
-    {
-      file: 'dist/index.js',
-      format: 'es',
-      sourcemap: true,
-    },
-    {
-      file: 'dist/index.cjs',
-      format: 'cjs',
-      sourcemap: true,
-    },
-  ],
-  plugins: [
-    typescript({
-      tsconfig: './tsconfig.json',
-      declaration: true,
-      declarationDir: './dist',
-    },),
-    babel({
-      babelHelpers: 'bundled',
-      extensions: [ '.ts', ],
-      plugins: [
-        '@babel/plugin-transform-nullish-coalescing-operator',
-        '@babel/plugin-transform-optional-chaining',
-      ],
-      targets: {
-        node: '14',
+const configs: RollupOptions[] = [
+  {
+    input: 'src/index.ts',
+    output: [
+      {
+        file: 'dist/index.js',
+        format: 'es',
+        exports: 'named',
       },
-      presets: [
-        '@babel/preset-env',
-        '@babel/preset-typescript',
-      ],
-    },),
-  ],
-}
+      {
+        file: 'dist/index.cjs',
+        format: 'cjs',
+        exports: 'named',
+      },
+    ],
+    external: [
+      '@higgins-mmt/core',
+      '@babel/core',
+      '@babel/generator',
+      '@babel/parser',
+      '@babel/traverse',
+      '@babel/types',
+      'await-to-js',
+      'axios',
+      'chalk',
+      'webpack',
+    ],
+    plugins: [
+      typescript({
+        tsconfig: './tsconfig.json',
+      },),
+      babel({
+        babelHelpers: 'bundled',
+        extensions: [ '.ts', ],
+        plugins: [
+          '@babel/plugin-transform-nullish-coalescing-operator',
+          '@babel/plugin-transform-optional-chaining',
+        ],
+        targets: {
+          node: '14',
+        },
+        presets: [
+          '@babel/preset-env',
+          '@babel/preset-typescript',
+        ],
+      },),
+    ],
+  },
+  {
+    input: 'src/index.ts',
+    output: {
+      file: 'dist/index.d.ts',
+      format: 'es',
+    },
+    plugins: [ dts(), ],
+  },
+]
 
-export default config
+export default configs
