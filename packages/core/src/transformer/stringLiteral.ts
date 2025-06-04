@@ -25,7 +25,7 @@ import type {
   StringLiteral,
   VariableDeclarator,
 } from '@babel/types'
-import type { I18nTransformOptions, StringLiteralTransformOptions, } from './types'
+import type { StringLiteralTransformOptions, } from './types'
 import {
   binaryExpression,
   callExpression,

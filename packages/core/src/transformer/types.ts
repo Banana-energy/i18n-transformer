@@ -1,7 +1,7 @@
 // 转换配置类型
 import type { NodePath, } from '@babel/traverse'
 import type { StringLiteral, TemplateLiteral, } from '@babel/types'
-import type { Messages, } from '../generator/types'
+import type { Messages, } from '@higgins-mmt/core'
 
 /** 生成i18n key的函数类型 */
 export type GenerateKey = (value: string, node: NodePath<StringLiteral>['node'] | NodePath<TemplateLiteral>['node'], messages: Messages) => string

@@ -1,5 +1,5 @@
 import type { PluginItem, } from '@babel/core'
-import type { GenerateConfig, Messages, } from '../generator/types'
+import type { GenerateConfig, Messages, } from '@higgins-mmt/core'
 import type {
   LangItem,
   UploadConfig,
@@ -22,7 +22,7 @@ function transformWithBabel(content: string, filePath: string, presets: PluginIt
   return code || ''
 }
 
-function readFileContent(filePath: string,): Messages {
+export function readFileContent(filePath: string,): Messages {
   const ext = filePath.split('.',).pop()
 
   const content = readFileSync(filePath, 'utf-8',)
@@ -66,7 +66,7 @@ function evaluateModule(code: string,) {
   return (module.exports as { default: Messages }).default || module.exports
 }
 
-async function loadLocaleConfig(config: UploadConfig,) {
+export function loadLocaleConfig(config: UploadConfig,) {
   const dir = config.localePath!
 
   if (!existsSync(dir,)) {
@@ -96,7 +96,7 @@ async function loadLocaleConfig(config: UploadConfig,) {
   return localeData
 }
 
-function loadOutputFiles(output: GenerateConfig,): LangItem[] {
+export function loadOutputFiles(output: GenerateConfig,): LangItem[] {
   const outputPath = output.path
 
   if (!existsSync(outputPath,)) {

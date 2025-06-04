@@ -1,9 +1,9 @@
 /**
  * 上次至翻译平台配置
  * 该模块功能是将翻译资源上传至翻译平台
- * 跟后端强相关，需要后端支持
+ * 与后端强相关，需要后端支持
  */
-import type { Messages, } from '../generator/types'
+import type { Messages, } from '@higgins-mmt/core'
 
 export type AppType = 'FE_VUE2' | 'FE_VUE3'
 
