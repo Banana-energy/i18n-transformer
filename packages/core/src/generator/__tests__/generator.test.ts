@@ -1,9 +1,7 @@
 import {
   existsSync,
   mkdirSync,
-  readFileSync,
   rmSync,
-  writeFileSync,
 } from 'fs'
 import { tmpdir, } from 'os'
 import { resolve, } from 'path'

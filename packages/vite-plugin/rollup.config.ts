@@ -19,15 +19,6 @@ const configs: RollupOptions[] = [
     ],
     external: [
       '@higgins-mmt/core',
-      '@babel/core',
-      '@babel/generator',
-      '@babel/parser',
-      '@babel/traverse',
-      '@babel/types',
-      'await-to-js',
-      'axios',
-      'chalk',
-      'vite',
     ],
     plugins: [
       typescript({
