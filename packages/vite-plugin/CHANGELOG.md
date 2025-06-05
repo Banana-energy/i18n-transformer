@@ -1,5 +1,13 @@
 # @higgins-mmt/vite-plugin-i18n-transformer
 
+## 2.0.1
+
+### Patch Changes
+
+- 重构 StringLiteral 处理逻辑
+- Updated dependencies
+  - @higgins-mmt/core@2.0.1
+
 ## 2.0.0
 
 ### Major Changes
