@@ -108,7 +108,16 @@ module.exports = {
 | i18nCallee | string | '' | i18n 函数名，如 't' 或 'i18n' |
 | localePattern | RegExp | /[\u4E00-\u9FA5]+/ | 匹配需要转换文本的正则，默认匹配中文字符 |
 | generateKey | (text: string, node: Node, messages: Messages) => string | - | 自定义生成 key 的函数 |
-| dependency | { path: string, name: string, module: 'commonjs' \| 'esm', objectPattern?: boolean } | - | i18n 库的导入配置 |
+| dependency | DependencyConfig | - | i18n 库的导入配置 |
+
+#### dependency 配置
+
+| 选项 | 类型 | 默认值 | 描述                            |
+|------|------|--------|-------------------------------|
+| path | string | - | i18n 库的路径，如 '@/hooks/useI18n' |
+| name | string | - | 导入的变量名                        |
+| module | 'commonjs' \| 'esm' | - | 模块系统类型                        |
+| objectPattern | boolean | - | 是否使用解构导入                      |
 
 ### 翻译平台配置
 
