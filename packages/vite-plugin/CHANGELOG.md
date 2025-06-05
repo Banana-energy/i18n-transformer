@@ -1,5 +1,13 @@
 # @higgins-mmt/vite-plugin-i18n-transformer
 
+## 2.0.4
+
+### Patch Changes
+
+- 优化 WebpackPlugin 构建脚本
+- Updated dependencies
+  - @higgins-mmt/core@2.0.4
+
 ## 2.0.3
 
 ### Patch Changes
