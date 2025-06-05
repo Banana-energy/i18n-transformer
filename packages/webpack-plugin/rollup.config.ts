@@ -43,9 +43,52 @@ const configs: RollupOptions[] = [
     ],
   },
   {
+    input: 'src/utils.ts',
+    output: [
+      {
+        file: 'dist/utils.js',
+        format: 'es',
+        exports: 'named',
+      },
+      {
+        file: 'dist/utils.cjs',
+        format: 'cjs',
+        exports: 'named',
+      },
+    ],
+    plugins: [
+      typescript({
+        tsconfig: './tsconfig.json',
+      },),
+      babel({
+        babelHelpers: 'bundled',
+        extensions: [ '.ts', ],
+        plugins: [
+          '@babel/plugin-transform-nullish-coalescing-operator',
+          '@babel/plugin-transform-optional-chaining',
+        ],
+        targets: {
+          node: '14',
+        },
+        presets: [
+          '@babel/preset-env',
+          '@babel/preset-typescript',
+        ],
+      },),
+    ],
+  },
+  {
     input: 'src/index.ts',
     output: {
       file: 'dist/index.d.ts',
+      format: 'es',
+    },
+    plugins: [ dts(), ],
+  },
+  {
+    input: 'src/utils.ts',
+    output: {
+      file: 'dist/utils.d.ts',
       format: 'es',
     },
     plugins: [ dts(), ],

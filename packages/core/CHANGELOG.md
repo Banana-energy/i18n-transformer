@@ -1,5 +1,11 @@
 # @higgins-mmt/core
 
+## 2.0.3
+
+### Patch Changes
+
+- 优化 WebpackPlugin 构建脚本
+
 ## 2.0.2
 
 ### Patch Changes
