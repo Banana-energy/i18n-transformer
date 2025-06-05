@@ -1,4 +1,5 @@
 # i18n-transformer
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Banana-energy/i18n-transformer)
 
 一个自动化的国际化转换工具，支持 Vite 和 Webpack 插件形式使用。
 
