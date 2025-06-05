@@ -1,5 +1,11 @@
 # @higgins-mmt/core
 
+## 2.0.2
+
+### Patch Changes
+
+- 降级 chalk 版本
+
 ## 2.0.1
 
 ### Patch Changes

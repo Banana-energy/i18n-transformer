@@ -1,5 +1,13 @@
 # @higgins-mmt/webpack-plugin-i18n-transformer
 
+## 2.0.2
+
+### Patch Changes
+
+- 降级 chalk 版本
+- Updated dependencies
+  - @higgins-mmt/core@2.0.2
+
 ## 2.0.1
 
 ### Patch Changes
