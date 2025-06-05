@@ -1,6 +1,6 @@
 import antfu from '@antfu/eslint-config'
 
-export default antfu({
+const config: ReturnType<typeof antfu> = antfu({
   type: 'lib',
   typescript: {
     overrides: {
@@ -16,7 +16,7 @@ export default antfu({
       ],
     },
   },
-  ignores: [ 'eslint.config.mjs', '**/package.json', '**/**.md', 'tsconfig.json', 'pnpm-workspace.yaml', ],
+  ignores: [ 'eslint.config.ts', '**/package.json', '**/**.md', 'tsconfig.json', 'pnpm-workspace.yaml', ],
   rules: {
     'no-new-func': 'off',
     'no-template-curly-in-string': 'off',
@@ -59,3 +59,5 @@ export default antfu({
     'style/operator-linebreak': [ 'error', 'after', ],
   },
 },)
+
+export default config

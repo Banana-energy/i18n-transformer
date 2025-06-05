@@ -8,10 +8,11 @@ export default defineConfig({
       reporter: [ 'text', 'json', 'html', ],
       exclude: [
         'node_modules/**',
-        'dist/**',
+        'packages/core/src/index.ts',
+        '**/*.config.ts',
         '**/*.d.ts',
-        '**/*.test.ts',
-        '**/test-utils.ts',
+        '**/dist/**',
+        '**/__tests__/**',
       ],
       thresholds: {
         statements: 90,
