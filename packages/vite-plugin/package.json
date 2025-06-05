@@ -21,15 +21,7 @@
   "license": "MIT",
   "packageManager": "pnpm@10.7.0",
   "dependencies": {
-    "@higgins-mmt/core": "workspace:*",
-    "@babel/core": "^7.27.3",
-    "@babel/generator": "^7.27.3",
-    "@babel/parser": "^7.27.3",
-    "@babel/traverse": "^7.27.3",
-    "@babel/types": "^7.27.3",
-    "await-to-js": "^3.0.0",
-    "axios": "^1.9.0",
-    "chalk": "^5.4.1"
+    "@higgins-mmt/core": "workspace:*"
   },
   "devDependencies": {
     "vite": "^6.3.5"
