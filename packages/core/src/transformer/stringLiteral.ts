@@ -32,6 +32,7 @@ import {
   identifier,
   stringLiteral,
 } from '@babel/types'
+import { getMessages, } from '../generator'
 import { getLeadingSpaceEnd, getTrailingSpaceStart, } from './utils'
 
 /**
@@ -251,7 +252,7 @@ const locators: Record<string, NodeLocator> = {
  */
 export function transformStringLiteral({
   path,
-  keyMap,
+  generateKey,
   i18nCallee,
 }: StringLiteralTransformOptions,): void {
   if (!path || !path.node) {
@@ -296,9 +297,10 @@ export function transformStringLiteral({
     // 添加本地化的主体内容
     const mainText = str.slice(leadingSpaceEnd, trailingSpaceStart,)
     if (mainText) {
+      const key = generateKey(mainText, path.node, getMessages(),)
       parts.push(
         callExpression(identifier(i18nCallee,), [
-          stringLiteral(keyMap[mainText] || `key_${mainText}`,),
+          stringLiteral(key || `key_${mainText}`,),
         ],),
       )
     }
@@ -316,8 +318,9 @@ export function transformStringLiteral({
     replaceNode(location, finalNode,)
   } else {
     // 没有空格的情况，直接替换为i18n调用
+    const key = generateKey(str, path.node, getMessages(),)
     const i18nCall = callExpression(identifier(i18nCallee,), [
-      stringLiteral(keyMap[str] || `key_${str}`,),
+      stringLiteral(key || `key_${str}`,),
     ],)
     replaceNode(location, i18nCall,)
   }

@@ -36,7 +36,7 @@ export interface StringLiteralTransformOptions {
   /** AST节点路径 */
   path: NodePath<StringLiteral>
   /** 原文到key的映射 */
-  keyMap: Record<string, string>
+  generateKey: GenerateKey
   /** i18n函数名 */
   i18nCallee: string
 }

@@ -13,9 +13,8 @@ import type { TransformConfig, } from './types'
 import babelGenerator from '@babel/generator'
 import { parse, } from '@babel/parser'
 import babelTraverse from '@babel/traverse'
-import { getMessages, setMessage, } from '../generator'
 import { generateKey, } from '../shared/utils'
-import { extractLocalizedStrings, transformStringLiteral, } from './stringLiteral'
+import { transformStringLiteral, } from './stringLiteral'
 import { transformTemplate, } from './templateLiteral'
 import {
   decodeUnicode,
@@ -146,26 +145,12 @@ export function transform({
       if (!isChineseText(value, localePattern,)) {
         return
       }
-
-      // 提取需要本地化的字符串
-      const strings = extractLocalizedStrings(value,)
-      if (!strings.length) {
-        return
-      }
       matched = true
-
-      // 为每个提取的字符串生成唯一的key
-      const keyMap = strings.reduce((messages, string,) => {
-        const key = generateKeyMethod(string, path.node, getMessages(),)
-        messages[string] = key
-        setMessage(key, value,)
-        return messages
-      }, {} as Record<string, string>,)
 
       // 转换节点为i18n调用
       transformStringLiteral({
         path,
-        keyMap,
+        generateKey: generateKeyMethod,
         i18nCallee,
       },)
     },

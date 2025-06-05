@@ -5,6 +5,7 @@ import { parse, } from '@babel/parser'
 import traverse from '@babel/traverse'
 import { describe, expect, it, } from 'vitest'
 import { extractLocalizedStrings, transformStringLiteral, } from '../stringLiteral'
+import { decodeUnicode, } from '../utils'
 import { compareCode, mockI18nConfig, } from './test-utils'
 
 describe('extractLocalizedStrings', () => {
@@ -41,9 +42,7 @@ describe('transformStringLiteral', () => {
       StringLiteral(path: NodePath<t.StringLiteral>,) {
         transformStringLiteral({
           path,
-          keyMap: {
-            你好世界: 'key_hello_world',
-          },
+          generateKey: mockI18nConfig.generateKey,
           i18nCallee: mockI18nConfig.i18nCallee,
         },)
       },
@@ -51,8 +50,8 @@ describe('transformStringLiteral', () => {
 
     const { code: newCode, } = generate(ast,)
     expect(compareCode(
-      newCode,
-      'const message = i18n("key_hello_world");',
+      decodeUnicode(newCode,),
+      'const message = i18n("key_你好世界");',
     ),).toBe(true,)
   },)
 
@@ -67,9 +66,7 @@ describe('transformStringLiteral', () => {
       StringLiteral(path: NodePath<t.StringLiteral>,) {
         transformStringLiteral({
           path,
-          keyMap: {
-            你好世界: 'key_hello_world',
-          },
+          generateKey: mockI18nConfig.generateKey,
           i18nCallee: mockI18nConfig.i18nCallee,
         },)
       },
@@ -77,8 +74,8 @@ describe('transformStringLiteral', () => {
 
     const { code: newCode, } = generate(ast,)
     expect(compareCode(
-      newCode,
-      'alert(i18n("key_hello_world"));',
+      decodeUnicode(newCode,),
+      'alert(i18n("key_你好世界"));',
     ),).toBe(true,)
   },)
 
@@ -93,9 +90,7 @@ describe('transformStringLiteral', () => {
       StringLiteral(path: NodePath<t.StringLiteral>,) {
         transformStringLiteral({
           path,
-          keyMap: {
-            你好世界: 'key_hello_world',
-          },
+          generateKey: mockI18nConfig.generateKey,
           i18nCallee: mockI18nConfig.i18nCallee,
         },)
       },
@@ -103,8 +98,8 @@ describe('transformStringLiteral', () => {
 
     const { code: newCode, } = generate(ast,)
     expect(compareCode(
-      newCode,
-      'const obj = { message: i18n("key_hello_world") };',
+      decodeUnicode(newCode,),
+      'const obj = { message: i18n("key_你好世界") };',
     ),).toBe(true,)
   },)
 
@@ -119,9 +114,7 @@ describe('transformStringLiteral', () => {
       StringLiteral(path: NodePath<t.StringLiteral>,) {
         transformStringLiteral({
           path,
-          keyMap: {
-            你好世界: 'key_hello_world',
-          },
+          generateKey: mockI18nConfig.generateKey,
           i18nCallee: mockI18nConfig.i18nCallee,
         },)
       },
@@ -129,8 +122,8 @@ describe('transformStringLiteral', () => {
 
     const { code: newCode, } = generate(ast,)
     expect(compareCode(
-      newCode,
-      'const message = "  " + i18n("key_hello_world") + "  ";',
+      decodeUnicode(newCode,),
+      'const message = "  " + i18n("key_你好世界") + "  ";',
     ),).toBe(true,)
   },)
 
@@ -145,10 +138,7 @@ describe('transformStringLiteral', () => {
       StringLiteral(path: NodePath<t.StringLiteral>,) {
         transformStringLiteral({
           path,
-          keyMap: {
-            你好: 'key_hello',
-            世界: 'key_world',
-          },
+          generateKey: mockI18nConfig.generateKey,
           i18nCallee: mockI18nConfig.i18nCallee,
         },)
       },
@@ -156,8 +146,8 @@ describe('transformStringLiteral', () => {
 
     const { code: newCode, } = generate(ast,)
     expect(compareCode(
-      newCode,
-      'const message = condition ? i18n("key_hello") : i18n("key_world");',
+      decodeUnicode(newCode,),
+      'const message = condition ? i18n("key_你好") : i18n("key_世界");',
     ),).toBe(true,)
   },)
 
@@ -172,10 +162,7 @@ describe('transformStringLiteral', () => {
       StringLiteral(path: NodePath<t.StringLiteral>,) {
         transformStringLiteral({
           path,
-          keyMap: {
-            你好: 'key_hello',
-            世界: 'key_world',
-          },
+          generateKey: mockI18nConfig.generateKey,
           i18nCallee: mockI18nConfig.i18nCallee,
         },)
       },
@@ -183,8 +170,8 @@ describe('transformStringLiteral', () => {
 
     const { code: newCode, } = generate(ast,)
     expect(compareCode(
-      newCode,
-      'const arr = [i18n("key_hello"), i18n("key_world")];',
+      decodeUnicode(newCode,),
+      'const arr = [i18n("key_你好"), i18n("key_世界")];',
     ),).toBe(true,)
   },)
 },)

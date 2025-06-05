@@ -9,7 +9,7 @@ import type {
 import { existsSync, readFileSync, } from 'fs'
 import { resolve, } from 'path'
 import babel from '@babel/core'
-import to from 'await-to-js'
+import { to, } from 'await-to-js'
 import axios from 'axios'
 import { log, } from './utils'
 
