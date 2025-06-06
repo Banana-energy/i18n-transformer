@@ -56,7 +56,7 @@ export function setMessage(key: string, value: string,) {
  * 获取所有已收集的国际化消息
  * @returns {Messages} 消息集合
  */
-export function getMessages() {
+export function getMessages(): Messages {
   return translationMessages
 }
 

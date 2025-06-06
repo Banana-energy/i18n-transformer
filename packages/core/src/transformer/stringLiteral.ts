@@ -32,7 +32,7 @@ import {
   identifier,
   stringLiteral,
 } from '@babel/types'
-import { getMessages, } from '../generator'
+import { getMessages, setMessage, } from '../generator'
 import { getLeadingSpaceEnd, getTrailingSpaceStart, } from './utils'
 
 /**
@@ -298,6 +298,7 @@ export function transformStringLiteral({
     const mainText = str.slice(leadingSpaceEnd, trailingSpaceStart,)
     if (mainText) {
       const key = generateKey(mainText, path.node, getMessages(),)
+      setMessage(key, mainText,)
       parts.push(
         callExpression(identifier(i18nCallee,), [
           stringLiteral(key || `key_${mainText}`,),
@@ -319,6 +320,7 @@ export function transformStringLiteral({
   } else {
     // 没有空格的情况，直接替换为i18n调用
     const key = generateKey(str, path.node, getMessages(),)
+    setMessage(key, str,)
     const i18nCall = callExpression(identifier(i18nCallee,), [
       stringLiteral(key || `key_${str}`,),
     ],)

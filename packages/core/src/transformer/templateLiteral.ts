@@ -14,7 +14,7 @@ import {
   objectProperty,
   stringLiteral,
 } from '@babel/types'
-import { getMessages, } from '../generator'
+import { getMessages, setMessage, } from '../generator'
 
 /**
  * 转换模板字符串为i18n调用表达式
@@ -46,6 +46,7 @@ export function transformTemplate({
   if (expressions.length === 0) {
     const text = quasis[0].value.cooked || quasis[0].value.raw || ''
     const key = generateKey(text, path.node, getMessages(),)
+    setMessage(key, text,)
     const i18nCall = callExpression(identifier(i18nCallee,), [
       stringLiteral(key,),
     ],)
@@ -71,9 +72,8 @@ export function transformTemplate({
     },)
     .join('',)
   const key = generateKey(newStringParts, path.node, getMessages(),)
-
+  setMessage(key, newStringParts,)
   // 创建i18n调用
-  // i18n('key_template', { var1: name })
   const i18nCall = callExpression(identifier(i18nCallee,), [
     stringLiteral(key,),
     objectExpression(properties,),
