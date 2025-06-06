@@ -137,7 +137,7 @@ export async function upload(uploadConfig: UploadConfig, generateConfig: Generat
   }
   if (localePath && localeConfig) {
     // 有静态翻译资源
-    const localeConfigMap = await loadLocaleConfig(uploadConfig,)
+    const localeConfigMap = loadLocaleConfig(uploadConfig,)
     uploadParams.langList = Object.entries(localeConfigMap,).map(([ locale, json, ],) => ({
       locale,
       json,
@@ -151,6 +151,7 @@ export async function upload(uploadConfig: UploadConfig, generateConfig: Generat
   }
 
   uploadParams.langList = loadOutputFiles(generateConfig,)
+  uploadParams.codeSource = 'FE_GENERATE_UPLOAD'
   const [ error, result, ] = await to(axios.post<UploadResponse>(url, uploadParams,),)
   if (result?.data.success && error === null) {
     log.info(`Upload successful.`,)
