@@ -1,5 +1,11 @@
 # @higgins-mmt/core
 
+## 2.0.5
+
+### Patch Changes
+
+- fix: 收集国际化资源
+
 ## 2.0.4
 
 ### Patch Changes

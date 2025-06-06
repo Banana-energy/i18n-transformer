@@ -1,5 +1,13 @@
 # @higgins-mmt/vite-plugin-i18n-transformer
 
+## 2.0.5
+
+### Patch Changes
+
+- fix: 收集国际化资源
+- Updated dependencies
+  - @higgins-mmt/core@2.0.5
+
 ## 2.0.4
 
 ### Patch Changes
