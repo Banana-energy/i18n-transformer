@@ -1,5 +1,11 @@
 # @higgins-mmt/core
 
+## 2.0.6
+
+### Patch Changes
+
+- fix: 修复扫描上传参数
+
 ## 2.0.5
 
 ### Patch Changes

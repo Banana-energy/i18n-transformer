@@ -1,5 +1,13 @@
 # @higgins-mmt/vite-plugin-i18n-transformer
 
+## 2.0.6
+
+### Patch Changes
+
+- fix: 修复扫描上传参数
+- Updated dependencies
+  - @higgins-mmt/core@2.0.6
+
 ## 2.0.5
 
 ### Patch Changes
